@@ -8,10 +8,21 @@
 import SwiftUI
 
 struct MealPlanView: View {
+    static let earliestDateOffset = -1
+    @Environment(\.managedObjectContext) private var context
+
+    @FetchRequest(entity: Meal.entity(),
+                  sortDescriptors: [],
+                  predicate: NSPredicate(format: "scheduledDay > %@", argumentArray: [
+                    Date().adding(days: Self.earliestDateOffset)
+                  ]),
+                  animation: nil)
+    private var meals: FetchedResults<Meal>
+    
     @State private var creatingMealSpace: MealSpace?
     
     var dates: [Date] {
-        (-1 ... 7).map { Date().adding(days: $0) }
+        (Self.earliestDateOffset ... 7).map { Date().adding(days: $0) }
     }
     
     func title(for day: Date) -> String {
@@ -31,17 +42,26 @@ struct MealPlanView: View {
         return formatter.string(from: day)
     }
     
+    func meal(on day: Date, for slot: MealSlot) -> Meal? {
+        meals.first {
+            $0.scheduledSlot == slot &&
+            Calendar.current.compare(day, to: $0.scheduledDay, toGranularity: .day) == .orderedSame
+        }
+    }
+    
     var body: some View {
         NavigationView {
             List {
                 ForEach(dates, id: \.timeIntervalSince1970) { day in
                     Section(header: Text(title(for: day))) {
-                        EmptyMealSlotView(slot: "Lunch") {
-                            creatingMealSpace = MealSpace(day: day, slot: .lunch)
-                        }
-                        
-                        EmptyMealSlotView(slot: "Dinner") {
-                            creatingMealSpace = MealSpace(day: day, slot: .dinner)
+                        ForEach(MealSlot.allCases) { slot in
+                            if let meal = self.meal(on: day, for: slot) {
+                                MealRow(name: meal.name)
+                            } else {
+                                EmptyMealSlotView(slot: slot.title) {
+                                    creatingMealSpace = MealSpace(day: day, slot: slot)
+                                }
+                            }
                         }
                     }
                 }
@@ -49,7 +69,7 @@ struct MealPlanView: View {
             .navigationTitle("Meal Plan")
             .listStyle(InsetGroupedListStyle())
             .sheet(item: $creatingMealSpace) { mealSpace in
-                NewMealView(slot: mealSpace.slot)
+                NewMealView(space: mealSpace)
             }
         }
     }

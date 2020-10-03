@@ -10,4 +10,10 @@ import Foundation
 public enum MealSlot: String, CaseIterable {
     case lunch
     case dinner
+    
+    var title: String { rawValue.firstUppercased }
+}
+
+extension MealSlot: Identifiable {
+    public var id: String { rawValue }
 }

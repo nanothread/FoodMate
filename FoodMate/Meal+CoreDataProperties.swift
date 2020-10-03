@@ -18,8 +18,7 @@ extension Meal {
 
     @NSManaged public var name: String
     @NSManaged public var scheduledDay: Date
-    @NSManaged public var ingredients: Set<Ingredient>
-    @NSManaged public var parent: AbstractMeal
+    @NSManaged public var ingredients: Set<AbstractIngredient>
 
     public var scheduledSlot: MealSlot {
         get {
@@ -50,4 +49,13 @@ extension Meal {
 
 extension Meal : Identifiable {
 
+}
+
+extension Meal {
+    convenience init(context: NSManagedObjectContext, name: String, space: MealSpace, ingredients: [AbstractIngredient]) {
+        self.init(context: context)
+        self.name = name
+        self.scheduledDay = space.day
+        self.scheduledSlot = space.slot
+    }
 }

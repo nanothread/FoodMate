@@ -9,7 +9,7 @@ import SwiftUI
 import CoreData
 
 struct NewMealView: View {
-    var slot: MealSlot
+    var space: MealSpace
     @EnvironmentObject private var searchProvider: SearchProvider
     
     @State private var name: String = ""
@@ -19,9 +19,16 @@ struct NewMealView: View {
     @State private var ingredients = [AbstractIngredient]()
     
     @Environment(\.presentationMode) private var presentation
-    
+    @Environment(\.managedObjectContext) private var context
+
     func saveMeal() {
+        _ = Meal(context: context, name: name, space: space, ingredients: ingredients)
         
+        do {
+            try context.save()
+        } catch {
+            Logger.coreData.error("NewMealView failed to save meal: \(error.localizedDescription)")
+        }
     }
     
     var body: some View {
@@ -45,6 +52,7 @@ struct NewMealView: View {
                             Label(ingredient.name, systemImage: "magnifyingglass")
                         }
                     }
+                    // TODO: Have an 'Add' button if no search results. Creates a new abstract ingredient.
                     
                     ForEach(ingredients) { ingredient in
                         Text(ingredient.name)
@@ -63,7 +71,7 @@ struct NewMealView: View {
                     },
                 trailing:
                     Button {
-                        // TODO save changes
+                        saveMeal()
                         presentation.wrappedValue.dismiss()
                     } label: {
                         Text("Done")
@@ -78,6 +86,6 @@ struct NewMealView: View {
 
 struct NewMealView_Previews: PreviewProvider {
     static var previews: some View {
-        NewMealView(slot: .lunch)
+        NewMealView(space: MealSpace(day: Date(), slot: .lunch))
     }
 }

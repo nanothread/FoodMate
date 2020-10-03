@@ -36,6 +36,7 @@
 		3E961A8E2528BC7F005E660F /* NewMealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A8D2528BC7F005E660F /* NewMealView.swift */; };
 		3E961A912528BEB9005E660F /* MealSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A902528BEB9005E660F /* MealSpace.swift */; };
 		3E961A952528C08A005E660F /* SearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A942528C08A005E660F /* SearchProvider.swift */; };
+		3E961A992528EF4F005E660F /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A982528EF4F005E660F /* String+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		3E961A8D2528BC7F005E660F /* NewMealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMealView.swift; sourceTree = "<group>"; };
 		3E961A902528BEB9005E660F /* MealSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSpace.swift; sourceTree = "<group>"; };
 		3E961A942528C08A005E660F /* SearchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProvider.swift; sourceTree = "<group>"; };
+		3E961A982528EF4F005E660F /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			children = (
 				3E961A782528AF81005E660F /* Date+Extensions.swift */,
 				3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */,
+				3E961A982528EF4F005E660F /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				3E521158252893E900FD62BF /* FoodMate.xcdatamodeld in Sources */,
 				3E52116D25289AC700FD62BF /* AbstractIngredient+CoreDataClass.swift in Sources */,
 				3E961A702528AD69005E660F /* MealPlanView.swift in Sources */,
+				3E961A992528EF4F005E660F /* String+Extensions.swift in Sources */,
 				3E961A812528B1B0005E660F /* EmptyMealSlotView.swift in Sources */,
 				3E52116B25289AC700FD62BF /* AbstractMeal+CoreDataClass.swift in Sources */,
 				3E52117925289BCC00FD62BF /* Location.swift in Sources */,
