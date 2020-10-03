@@ -51,6 +51,7 @@ struct IngredientsView: View {
                 isAddingNewIngredients = true
             } label: {
                 Image(systemName: "plus")
+                    .imageScale(.large)
             })
             .sheet(isPresented: $isAddingNewIngredients) {
                 NewIngredientView()

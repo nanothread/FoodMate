@@ -5,9 +5,6 @@
         <relationship name="children" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="parent" inverseEntity="Ingredient"/>
         <relationship name="meals" toMany="YES" deletionRule="Nullify" destinationEntity="Meal" inverseName="ingredients" inverseEntity="Meal"/>
     </entity>
-    <entity name="AbstractMeal" representedClassName="AbstractMeal" syncable="YES">
-        <attribute name="name" optional="YES" attributeType="String"/>
-    </entity>
     <entity name="Ingredient" representedClassName="Ingredient" syncable="YES">
         <attribute name="expiryDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="location" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -20,10 +17,16 @@
         <attribute name="scheduledSlot" optional="YES" attributeType="String"/>
         <relationship name="ingredients" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="AbstractIngredient" inverseName="meals" inverseEntity="AbstractIngredient"/>
     </entity>
+    <entity name="ShoppingItem" representedClassName="ShoppingItem" syncable="YES">
+        <attribute name="expiryDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="status" optional="YES" attributeType="String"/>
+        <relationship name="ingredient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AbstractIngredient"/>
+    </entity>
     <elements>
         <element name="AbstractIngredient" positionX="-27" positionY="45" width="128" height="88"/>
-        <element name="AbstractMeal" positionX="-36" positionY="36" width="128" height="58"/>
         <element name="Ingredient" positionX="-54" positionY="-9" width="128" height="103"/>
         <element name="Meal" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="ShoppingItem" positionX="-45" positionY="45" width="128" height="103"/>
     </elements>
 </model>

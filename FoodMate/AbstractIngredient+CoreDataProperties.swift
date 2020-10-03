@@ -17,25 +17,7 @@ extension AbstractIngredient {
     }
 
     @NSManaged public var name: String
-    @NSManaged public var meals: Set<AbstractMeal>
     @NSManaged public var children: Set<Ingredient>
-
-}
-
-// MARK: Generated accessors for meals
-extension AbstractIngredient {
-
-    @objc(addMealsObject:)
-    @NSManaged public func addToMeals(_ value: AbstractMeal)
-
-    @objc(removeMealsObject:)
-    @NSManaged public func removeFromMeals(_ value: AbstractMeal)
-
-    @objc(addMeals:)
-    @NSManaged public func addToMeals(_ values: NSSet)
-
-    @objc(removeMeals:)
-    @NSManaged public func removeFromMeals(_ values: NSSet)
 
 }
 
