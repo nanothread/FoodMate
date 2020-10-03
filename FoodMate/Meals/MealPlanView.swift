@@ -49,6 +49,18 @@ struct MealPlanView: View {
         }
     }
     
+    func deleteMeals(at indices: IndexSet, on day: Date) {
+        indices
+            .compactMap { meal(on: day, for: MealSlot.allCases[$0]) }
+            .forEach(context.delete)
+        
+        do {
+            try context.save()
+        } catch {
+            Logger.coreData.error("MealPlanView failed to delete meal: \(error.localizedDescription)")
+        }
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -63,6 +75,7 @@ struct MealPlanView: View {
                                 }
                             }
                         }
+                        .onDelete { deleteMeals(at: $0, on: day) }
                     }
                 }
             }
