@@ -16,9 +16,12 @@ class SearchProvider: ObservableObject {
     }
     
     func getAbstractIngredients(matching searchTerm: String) -> [AbstractIngredient] {
+        let trimmedTerm = searchTerm.trimmingCharacters(in: .whitespaces)
+        guard !trimmedTerm.isEmpty else { return [] }
+        
         let request: NSFetchRequest<AbstractIngredient> = AbstractIngredient.fetchRequest()
-        request.fetchLimit = 5
-        request.predicate = NSPredicate(format: "name CONTAINS[c] %@", argumentArray: [searchTerm])
+        request.fetchLimit = 3
+        request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", argumentArray: [trimmedTerm])
         
         do {
             return try context.fetch(request)

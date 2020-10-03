@@ -59,4 +59,12 @@ extension Ingredient {
         self.expiryDate = expiryDate
         self.location = location
     }
+    
+    convenience init(context: NSManagedObjectContext, parent: AbstractIngredient, expiryDate: Date?, location: Location) {
+        self.init(context: context)
+        self.name = parent.name
+        self.parent = parent
+        self.expiryDate = expiryDate
+        self.location = location
+    }
 }

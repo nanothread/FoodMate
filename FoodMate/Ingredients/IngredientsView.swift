@@ -56,6 +56,21 @@ struct IngredientsView: View {
                 NewIngredientView()
             }
         }
+        .onAppear {
+//            do {
+//                let ings = try context.fetch(AbstractIngredient.fetchRequest()) as! [AbstractIngredient]
+//                ings.forEach(context.delete)
+//                
+//                let ingredients = try context.fetch(Ingredient.fetchRequest()) as! [Ingredient]
+//                for ing in ingredients {
+//                    context.delete(ing)
+//                }
+//
+//                try context.save()
+//            } catch {
+//                print("AAAA", error)
+//            }
+        }
     }
 }
 
