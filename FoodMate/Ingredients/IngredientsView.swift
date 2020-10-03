@@ -11,21 +11,24 @@ import CoreData
 struct IngredientsView: View {
     @Environment(\.managedObjectContext) private var context
 
+    @FetchRequest(entity: Ingredient.entity(), sortDescriptors: [])
+    private var ingredients: FetchedResults<Ingredient>
+    
     @State private var isAddingNewIngredients = false
+    
+    private func ingredients(in location: Location) -> [Ingredient] {
+        ingredients.filter { $0.location == location }
+    }
     
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Pantry")) {
-                    
-                }
-                
-                Section(header: Text("Fridge")) {
-                    
-                }
-                
-                Section(header: Text("Freezer")) {
-                    
+                ForEach(Location.allCases, id: \.rawValue) { location in
+                    Section(header: Text(location.title)) {
+                        ForEach(ingredients(in: location)) { ingredient in
+                            IngredientRow(name: ingredient.name, expiryDate: ingredient.expiryDate)
+                        }
+                    }
                 }
             }
             .navigationTitle("Ingredients")

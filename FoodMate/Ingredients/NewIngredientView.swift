@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import os
 
 struct NewIngredientView: View {
     @State private var name: String = ""
@@ -14,7 +15,8 @@ struct NewIngredientView: View {
     
     @State var ingredients = [Ingredient]()
     @Environment(\.managedObjectContext) private var context
-    
+    @Environment(\.presentationMode) private var presentation
+     
     func recordIngredient() {
         ingredients.append(
             Ingredient(context: context,
@@ -26,6 +28,14 @@ struct NewIngredientView: View {
         name = ""
         expiryDate = Date()
         rawLocation = Location.pantry.rawValue
+    }
+    
+    func saveChanges() {
+        do {
+            try context.save()
+        } catch {
+            Logger.coreData.error("NewIngredientView failed to save changes: \(error.localizedDescription)")
+        }
     }
     
     var body: some View {
@@ -69,13 +79,14 @@ struct NewIngredientView: View {
             .navigationBarItems(
                 leading:
                     Button {
-                    
+                        presentation.wrappedValue.dismiss()
                     } label: {
                         Text("Cancel")
                     },
                 trailing:
                     Button {
-                    
+                        saveChanges()
+                        presentation.wrappedValue.dismiss()
                     } label: {
                         Text("Done")
                     }
