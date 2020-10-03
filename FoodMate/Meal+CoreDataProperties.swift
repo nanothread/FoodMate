@@ -52,10 +52,11 @@ extension Meal : Identifiable {
 }
 
 extension Meal {
-    convenience init(context: NSManagedObjectContext, name: String, space: MealSpace, ingredients: [AbstractIngredient]) {
+    convenience init(context: NSManagedObjectContext, name: String, space: MealSpace, ingredients: Set<AbstractIngredient>) {
         self.init(context: context)
         self.name = name
         self.scheduledDay = space.day
         self.scheduledSlot = space.slot
+        self.ingredients = ingredients
     }
 }

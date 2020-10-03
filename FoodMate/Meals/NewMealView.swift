@@ -16,14 +16,25 @@ struct NewMealView: View {
     @State private var ingredient: String = ""
     
     @State private var ingredientSearchResults = [AbstractIngredient]()
+    @State private var mealSearchResults = [Meal]()
     @State private var ingredients = [AbstractIngredient]()
     
     @Environment(\.presentationMode) private var presentation
     @Environment(\.managedObjectContext) private var context
 
     func saveMeal() {
-        _ = Meal(context: context, name: name, space: space, ingredients: ingredients)
+        _ = Meal(context: context, name: name, space: space, ingredients: Set(ingredients))
         
+        do {
+            try context.save()
+        } catch {
+            Logger.coreData.error("NewMealView failed to save meal: \(error.localizedDescription)")
+        }
+    }
+    
+    func saveDuplicateOf(meal: Meal) {
+        _ =  Meal(context: context, name: meal.name, space: space, ingredients: meal.ingredients)
+
         do {
             try context.save()
         } catch {
@@ -36,6 +47,18 @@ struct NewMealView: View {
             Form {
                 Section {
                     TextField("Name", text: $name)
+                        .onChange(of: name) { name in
+                            mealSearchResults = searchProvider.getMealsWithDistinctNames(matching: name)
+                        }
+                    
+                    ForEach(mealSearchResults) { meal in
+                        Button {
+                            saveDuplicateOf(meal: meal)
+                            presentation.wrappedValue.dismiss()
+                        } label: {
+                            Label(meal.name, systemImage: "magnifyingglass")
+                        }
+                    }
                 }
                 
                 Section(header: Text("Ingredients")) {
