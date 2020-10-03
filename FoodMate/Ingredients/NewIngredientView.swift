@@ -29,6 +29,10 @@ struct NewIngredientView: View {
                            location: Location(rawValue: rawLocation)!)
             )
         } else {
+            // TODO: Try to match up abstract parent by checking for exact name matches
+            // for existing abstact ingredients in case the user didn't tap the search
+            // result.
+            
             let ingredient = Ingredient(context: context,
                                         name: name,
                                         expiryDate: Calendar.current.isDateInToday(expiryDate) ? nil : expiryDate,

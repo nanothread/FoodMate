@@ -18,6 +18,12 @@ struct NewMealView: View {
     @State private var ingredientSearchResults = [AbstractIngredient]()
     @State private var ingredients = [AbstractIngredient]()
     
+    @Environment(\.presentationMode) private var presentation
+    
+    func saveMeal() {
+        
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -28,18 +34,44 @@ struct NewMealView: View {
                 Section(header: Text("Ingredients")) {
                     TextField("Search", text: $ingredient)
                         .onChange(of: ingredient) { ingredient in
-                            ingredientSearchResults = searchProvider.getAbstractIngredients(matching: name)
+                            ingredientSearchResults = searchProvider.getAbstractIngredients(matching: ingredient)
                         }
                     
-                    Button {
-                        
-                    } label: {
-                        Label("Add Ingredient", systemImage: "plus")
+                    ForEach(ingredientSearchResults) { ingredient in
+                        Button {
+                            ingredients.insert(ingredient, at: 0)
+                            self.ingredient = ""
+                        } label: {
+                            Label(ingredient.name, systemImage: "magnifyingglass")
+                        }
                     }
+                    
+                    ForEach(ingredients) { ingredient in
+                        Text(ingredient.name)
+                    }
+                    .onDelete { ingredients.remove(atOffsets: $0) }
                 }
             }
             .navigationTitle("New Meal")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(
+                leading:
+                    Button {
+                        presentation.wrappedValue.dismiss()
+                    } label: {
+                        Text("Cancel")
+                    },
+                trailing:
+                    Button {
+                        // TODO save changes
+                        presentation.wrappedValue.dismiss()
+                    } label: {
+                        Text("Done")
+                    }
+                    .disabled(
+                        ingredients.isEmpty || name.trimmingCharacters(in: .whitespaces).isEmpty
+                    )
+            )
         }
     }
 }
