@@ -31,6 +31,8 @@
 		3E961A792528AF81005E660F /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A782528AF81005E660F /* Date+Extensions.swift */; };
 		3E961A7E2528B0CF005E660F /* MealRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A7D2528B0CF005E660F /* MealRow.swift */; };
 		3E961A812528B1B0005E660F /* EmptyMealSlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A802528B1B0005E660F /* EmptyMealSlotView.swift */; };
+		3E961A842528B9BB005E660F /* MealSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A832528B9BB005E660F /* MealSlot.swift */; };
+		3E961A8B2528BA15005E660F /* NSManagedObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +62,8 @@
 		3E961A782528AF81005E660F /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		3E961A7D2528B0CF005E660F /* MealRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealRow.swift; sourceTree = "<group>"; };
 		3E961A802528B1B0005E660F /* EmptyMealSlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMealSlotView.swift; sourceTree = "<group>"; };
+		3E961A832528B9BB005E660F /* MealSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSlot.swift; sourceTree = "<group>"; };
+		3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +141,7 @@
 			children = (
 				3E5211862528A8B800FD62BF /* Logging.swift */,
 				3E52117825289BCC00FD62BF /* Location.swift */,
+				3E961A832528B9BB005E660F /* MealSlot.swift */,
 			);
 			path = Structures;
 			sourceTree = "<group>";
@@ -173,6 +178,7 @@
 			isa = PBXGroup;
 			children = (
 				3E961A782528AF81005E660F /* Date+Extensions.swift */,
+				3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -259,6 +265,7 @@
 				3E52117225289AC700FD62BF /* Meal+CoreDataProperties.swift in Sources */,
 				3E52117125289AC700FD62BF /* Meal+CoreDataClass.swift in Sources */,
 				3E521155252893E900FD62BF /* Persistence.swift in Sources */,
+				3E961A842528B9BB005E660F /* MealSlot.swift in Sources */,
 				3E52114E252893E800FD62BF /* IngredientsView.swift in Sources */,
 				3E961A792528AF81005E660F /* Date+Extensions.swift in Sources */,
 				3E52114C252893E800FD62BF /* FoodMateApp.swift in Sources */,
@@ -267,6 +274,7 @@
 				3E52116F25289AC700FD62BF /* Ingredient+CoreDataClass.swift in Sources */,
 				3E961A7E2528B0CF005E660F /* MealRow.swift in Sources */,
 				3E52116C25289AC700FD62BF /* AbstractMeal+CoreDataProperties.swift in Sources */,
+				3E961A8B2528BA15005E660F /* NSManagedObject+Extensions.swift in Sources */,
 				3E5211872528A8B800FD62BF /* Logging.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

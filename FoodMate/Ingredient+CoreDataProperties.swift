@@ -18,22 +18,17 @@ extension Ingredient {
 
     @NSManaged public var name: String
     @NSManaged public var expiryDate: Date?
-    public var location: Location {
-        set {
-            willChangeValue(forKey: "location")
-            setPrimitiveValue(newValue.rawValue, forKey: "location")
-            didChangeValue(forKey: "location")
-        }
-        get {
-            willAccessValue(forKey: "location")
-            let raw = primitiveValue(forKey: "location") as! Int
-            didAccessValue(forKey: "location")
-            return Location(rawValue: raw)!
-        }
-    }
     @NSManaged public var meals: Set<Meal>
     @NSManaged public var parent: AbstractIngredient
 
+    public var location: Location {
+        get {
+            return Location(rawValue: properlyGetPrimitiveValue(forKey: "location") as! Int)!
+        }
+        set {
+            properlySetPrimitiveValue(newValue.rawValue, forKey: "location")
+        }
+    }
 }
 
 // MARK: Generated accessors for meals

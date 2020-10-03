@@ -18,10 +18,17 @@ extension Meal {
 
     @NSManaged public var name: String
     @NSManaged public var scheduledDay: Date
-    @NSManaged public var scheduledSlot: String
     @NSManaged public var ingredients: Set<Ingredient>
     @NSManaged public var parent: AbstractMeal
 
+    public var scheduledSlot: MealSlot {
+        get {
+            MealSlot(rawValue: properlyGetPrimitiveValue(forKey: "scheduledSlot") as! String)!
+        }
+        set {
+            properlySetPrimitiveValue(newValue.rawValue, forKey: "scheduledSlot")
+        }
+    }
 }
 
 // MARK: Generated accessors for ingredients
