@@ -18,6 +18,7 @@
         <relationship name="ingredients" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="AbstractIngredient" inverseName="meals" inverseEntity="AbstractIngredient"/>
     </entity>
     <entity name="ShoppingItem" representedClassName="ShoppingItem" syncable="YES">
+        <attribute name="dateCreated" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="expiryDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="status" optional="YES" attributeType="String"/>
@@ -27,6 +28,6 @@
         <element name="AbstractIngredient" positionX="-27" positionY="45" width="128" height="88"/>
         <element name="Ingredient" positionX="-54" positionY="-9" width="128" height="103"/>
         <element name="Meal" positionX="-63" positionY="-18" width="128" height="103"/>
-        <element name="ShoppingItem" positionX="-45" positionY="45" width="128" height="103"/>
+        <element name="ShoppingItem" positionX="-45" positionY="45" width="128" height="118"/>
     </elements>
 </model>

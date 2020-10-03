@@ -8,8 +8,71 @@
 import SwiftUI
 
 struct ShoppingListView: View {
+    @FetchRequest(entity: ShoppingItem.entity(),
+                  sortDescriptors: [NSSortDescriptor(key: "dateCreated", ascending: true)])
+    private var items: FetchedResults<ShoppingItem>
+    
+    @Environment(\.managedObjectContext) private var context
+    
+    @State private var newItemName: String = ""
+    
+    var activeItems: [ShoppingItem] {
+        items.filter { $0.status == .pending }
+    }
+    
+    var completedItems: [ShoppingItem] {
+        items.filter { $0.status == .completed }
+    }
+    
+    func dateBinding(for item: ShoppingItem) -> Binding<Date> {
+        Binding(get: {
+            item.expiryDate ?? Date()
+        }, set: { date in
+            print("Setting expiry date for", item.name)
+            if Calendar.current.isDateInToday(date) {
+                item.expiryDate = nil
+            } else {
+                item.expiryDate = date
+            }
+        })
+    }
+    
+    func createItem() {
+        defer {
+            newItemName = ""
+        }
+        
+        guard !newItemName.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+        
+        _ = ShoppingItem(context: context, name: newItemName)
+        
+        do {
+            try context.save()
+        } catch {
+            Logger.coreData.error("ShoppingListView failed to delete ingredients: \(error.localizedDescription)")
+        }
+    }
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List {
+                Section(header: Text("To Buy")) {
+                    ForEach(activeItems) { item in
+                        ActiveShoppingItemView(name: item.name, date: dateBinding(for: item))
+                    }
+                    
+                    TextField("New Item...", text: $newItemName, onCommit: createItem)
+                }
+                
+                Section(header: Text("To Sort")) {
+                    
+                }
+            }
+            .navigationTitle("Shopping List")
+            .listStyle(InsetGroupedListStyle())
+        }
     }
 }
 

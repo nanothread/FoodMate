@@ -17,6 +17,7 @@ extension ShoppingItem {
     }
 
     @NSManaged public var name: String
+    @NSManaged public var dateCreated: Date
     @NSManaged public var expiryDate: Date?
     @NSManaged public var ingredient: AbstractIngredient?
 
@@ -32,4 +33,13 @@ extension ShoppingItem {
 
 extension ShoppingItem : Identifiable {
 
+}
+
+extension ShoppingItem {
+    convenience init(context: NSManagedObjectContext, name: String) {
+        self.init(context: context)
+        self.name = name
+        self.dateCreated = Date()
+        self.status = .pending
+    }
 }
