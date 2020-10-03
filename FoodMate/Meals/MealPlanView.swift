@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MealPlanView: View {
+    @State private var creatingMealSpace: MealSpace?
+    
     var dates: [Date] {
         (-1 ... 7).map { Date().adding(days: $0) }
     }
@@ -34,13 +36,21 @@ struct MealPlanView: View {
             List {
                 ForEach(dates, id: \.timeIntervalSince1970) { day in
                     Section(header: Text(title(for: day))) {
-                        EmptyMealSlotView(slot: "Lunch")
-                        EmptyMealSlotView(slot: "Dinner")
+                        EmptyMealSlotView(slot: "Lunch") {
+                            creatingMealSpace = MealSpace(day: day, slot: .lunch)
+                        }
+                        
+                        EmptyMealSlotView(slot: "Dinner") {
+                            creatingMealSpace = MealSpace(day: day, slot: .dinner)
+                        }
                     }
                 }
             }
             .navigationTitle("Meal Plan")
             .listStyle(InsetGroupedListStyle())
+            .sheet(item: $creatingMealSpace) { mealSpace in
+                NewMealView(slot: mealSpace.slot)
+            }
         }
     }
 }

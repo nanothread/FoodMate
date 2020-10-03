@@ -9,14 +9,17 @@ import SwiftUI
 
 struct EmptyMealSlotView: View {
     var slot: String
+    var action: () -> Void
     
     var body: some View {
-        Label("Add \(slot)", systemImage: "plus")
+        Button(action: action) {
+            Label("Add \(slot)", systemImage: "plus")
+        }
     }
 }
 
 struct EmptyMealSlotView_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyMealSlotView(slot: "Lunch")
+        EmptyMealSlotView(slot: "Lunch") { }
     }
 }

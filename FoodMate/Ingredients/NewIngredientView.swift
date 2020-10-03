@@ -76,6 +76,7 @@ struct NewIngredientView: View {
                 }
             }
             .navigationTitle("New Ingredient")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
                 leading:
                     Button {

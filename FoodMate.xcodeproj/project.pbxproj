@@ -33,6 +33,9 @@
 		3E961A812528B1B0005E660F /* EmptyMealSlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A802528B1B0005E660F /* EmptyMealSlotView.swift */; };
 		3E961A842528B9BB005E660F /* MealSlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A832528B9BB005E660F /* MealSlot.swift */; };
 		3E961A8B2528BA15005E660F /* NSManagedObject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */; };
+		3E961A8E2528BC7F005E660F /* NewMealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A8D2528BC7F005E660F /* NewMealView.swift */; };
+		3E961A912528BEB9005E660F /* MealSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A902528BEB9005E660F /* MealSpace.swift */; };
+		3E961A952528C08A005E660F /* SearchProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A942528C08A005E660F /* SearchProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +67,9 @@
 		3E961A802528B1B0005E660F /* EmptyMealSlotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMealSlotView.swift; sourceTree = "<group>"; };
 		3E961A832528B9BB005E660F /* MealSlot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSlot.swift; sourceTree = "<group>"; };
 		3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSManagedObject+Extensions.swift"; sourceTree = "<group>"; };
+		3E961A8D2528BC7F005E660F /* NewMealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMealView.swift; sourceTree = "<group>"; };
+		3E961A902528BEB9005E660F /* MealSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSpace.swift; sourceTree = "<group>"; };
+		3E961A942528C08A005E660F /* SearchProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchProvider.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,7 @@
 				3E52117E25289CEA00FD62BF /* Ingredients */,
 				3E5211892528ACAE00FD62BF /* Meals */,
 				3E961A722528ADFC005E660F /* ShoppingList */,
+				3E961A932528C07E005E660F /* Models */,
 				3E52117725289BB700FD62BF /* Structures */,
 				3E52117525289B1900FD62BF /* Core Data */,
 				3E961A772528AF74005E660F /* Extensions */,
@@ -140,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				3E5211862528A8B800FD62BF /* Logging.swift */,
+				3E961A902528BEB9005E660F /* MealSpace.swift */,
 				3E52117825289BCC00FD62BF /* Location.swift */,
 				3E961A832528B9BB005E660F /* MealSlot.swift */,
 			);
@@ -162,6 +170,7 @@
 				3E961A6F2528AD69005E660F /* MealPlanView.swift */,
 				3E961A7D2528B0CF005E660F /* MealRow.swift */,
 				3E961A802528B1B0005E660F /* EmptyMealSlotView.swift */,
+				3E961A8D2528BC7F005E660F /* NewMealView.swift */,
 			);
 			path = Meals;
 			sourceTree = "<group>";
@@ -181,6 +190,14 @@
 				3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		3E961A932528C07E005E660F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3E961A942528C08A005E660F /* SearchProvider.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +273,7 @@
 				3E52116E25289AC700FD62BF /* AbstractIngredient+CoreDataProperties.swift in Sources */,
 				3E961A6C2528AD22005E660F /* ContainerView.swift in Sources */,
 				3E5211612528952700FD62BF /* IngredientRow.swift in Sources */,
+				3E961A952528C08A005E660F /* SearchProvider.swift in Sources */,
 				3E521158252893E900FD62BF /* FoodMate.xcdatamodeld in Sources */,
 				3E52116D25289AC700FD62BF /* AbstractIngredient+CoreDataClass.swift in Sources */,
 				3E961A702528AD69005E660F /* MealPlanView.swift in Sources */,
@@ -265,6 +283,7 @@
 				3E52117225289AC700FD62BF /* Meal+CoreDataProperties.swift in Sources */,
 				3E52117125289AC700FD62BF /* Meal+CoreDataClass.swift in Sources */,
 				3E521155252893E900FD62BF /* Persistence.swift in Sources */,
+				3E961A8E2528BC7F005E660F /* NewMealView.swift in Sources */,
 				3E961A842528B9BB005E660F /* MealSlot.swift in Sources */,
 				3E52114E252893E800FD62BF /* IngredientsView.swift in Sources */,
 				3E961A792528AF81005E660F /* Date+Extensions.swift in Sources */,
@@ -274,6 +293,7 @@
 				3E52116F25289AC700FD62BF /* Ingredient+CoreDataClass.swift in Sources */,
 				3E961A7E2528B0CF005E660F /* MealRow.swift in Sources */,
 				3E52116C25289AC700FD62BF /* AbstractMeal+CoreDataProperties.swift in Sources */,
+				3E961A912528BEB9005E660F /* MealSpace.swift in Sources */,
 				3E961A8B2528BA15005E660F /* NSManagedObject+Extensions.swift in Sources */,
 				3E5211872528A8B800FD62BF /* Logging.swift in Sources */,
 			);
