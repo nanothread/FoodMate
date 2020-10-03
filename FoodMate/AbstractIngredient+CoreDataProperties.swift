@@ -16,9 +16,9 @@ extension AbstractIngredient {
         return NSFetchRequest<AbstractIngredient>(entityName: "AbstractIngredient")
     }
 
-    @NSManaged public var name: String?
-    @NSManaged public var meals: NSSet?
-    @NSManaged public var children: NSSet?
+    @NSManaged public var name: String
+    @NSManaged public var meals: Set<AbstractMeal>
+    @NSManaged public var children: Set<Ingredient>
 
 }
 

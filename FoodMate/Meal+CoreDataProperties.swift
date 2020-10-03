@@ -16,11 +16,11 @@ extension Meal {
         return NSFetchRequest<Meal>(entityName: "Meal")
     }
 
-    @NSManaged public var name: String?
-    @NSManaged public var scheduledDay: Date?
-    @NSManaged public var scheduledSlot: String?
-    @NSManaged public var ingredients: NSSet?
-    @NSManaged public var parent: AbstractMeal?
+    @NSManaged public var name: String
+    @NSManaged public var scheduledDay: Date
+    @NSManaged public var scheduledSlot: String
+    @NSManaged public var ingredients: Set<Ingredient>
+    @NSManaged public var parent: AbstractMeal
 
 }
 

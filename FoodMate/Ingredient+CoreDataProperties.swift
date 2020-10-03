@@ -16,11 +16,11 @@ extension Ingredient {
         return NSFetchRequest<Ingredient>(entityName: "Ingredient")
     }
 
-    @NSManaged public var name: String?
-    @NSManaged public var expiryDate: Date?
-    @NSManaged public var location: String?
-    @NSManaged public var meals: NSSet?
-    @NSManaged public var parent: AbstractIngredient?
+    @NSManaged public var name: String
+    @NSManaged public var expiryDate: Date
+    @NSManaged public var location: String
+    @NSManaged public var meals: Set<Meal>
+    @NSManaged public var parent: AbstractIngredient
 
 }
 
