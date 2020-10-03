@@ -13,7 +13,7 @@ struct FoodMateApp: App {
 
     var body: some Scene {
         WindowGroup {
-            IngredientsView()
+            ContainerView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
