@@ -9,17 +9,21 @@ import SwiftUI
 
 struct IngredientRow: View {
     var name: String
-    var expiryDate: Date
+    var expiryDate: Date?
     
-    private var daysUntilExpiry: Int {
-        Calendar.current.dateComponents([.day], from: Date(), to: expiryDate).day!
+    private var daysUntilExpiry: Int? {
+        guard let date = expiryDate else { return nil }
+        return Calendar.current.dateComponents([.day], from: Date(), to: date).day!
     }
     
     var body: some View {
         HStack {
             Text(name)
-            Spacer()
-            Text("\(daysUntilExpiry) days")
+            
+            if let days = daysUntilExpiry {
+                Spacer()
+                Text("\(days) days")
+            }
         }
     }
 }

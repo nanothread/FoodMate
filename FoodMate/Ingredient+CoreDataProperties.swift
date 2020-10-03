@@ -18,7 +18,19 @@ extension Ingredient {
 
     @NSManaged public var name: String
     @NSManaged public var expiryDate: Date?
-    @NSManaged public var location: Location
+    public var location: Location {
+        set {
+            willChangeValue(forKey: "location")
+            setPrimitiveValue(newValue.rawValue, forKey: "location")
+            didChangeValue(forKey: "location")
+        }
+        get {
+            willAccessValue(forKey: "location")
+            let raw = primitiveValue(forKey: "location") as! Int
+            didAccessValue(forKey: "location")
+            return Location(rawValue: raw)!
+        }
+    }
     @NSManaged public var meals: Set<Meal>
     @NSManaged public var parent: AbstractIngredient
 
@@ -43,4 +55,13 @@ extension Ingredient {
 
 extension Ingredient : Identifiable {
 
+}
+
+extension Ingredient {
+    convenience init(context: NSManagedObjectContext, name: String, expiryDate: Date?, location: Location) {
+        self.init(context: context)
+        self.name = name
+        self.expiryDate = expiryDate
+        self.location = location
+    }
 }

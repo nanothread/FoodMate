@@ -7,8 +7,16 @@
 
 import Foundation
 
-@objc public enum Location: Int {
+@objc public enum Location: Int, CaseIterable {
     case pantry
     case fridge
     case freezer
+    
+    var title: String {
+        switch self {
+        case .pantry: return "Pantry"
+        case .fridge: return "Fridge"
+        case .freezer: return "Freezer"
+        }
+    }
 }

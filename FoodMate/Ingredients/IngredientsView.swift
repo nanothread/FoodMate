@@ -11,6 +11,8 @@ import CoreData
 struct IngredientsView: View {
     @Environment(\.managedObjectContext) private var context
 
+    @State private var isAddingNewIngredients = false
+    
     var body: some View {
         NavigationView {
             List {
@@ -28,6 +30,14 @@ struct IngredientsView: View {
             }
             .navigationTitle("Ingredients")
             .listStyle(InsetGroupedListStyle())
+            .navigationBarItems(trailing: Button {
+                isAddingNewIngredients = true
+            } label: {
+                Image(systemName: "plus")
+            })
+            .sheet(isPresented: $isAddingNewIngredients) {
+                NewIngredientView()
+            }
         }
     }
 }
