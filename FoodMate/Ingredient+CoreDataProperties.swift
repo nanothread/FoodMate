@@ -17,8 +17,8 @@ extension Ingredient {
     }
 
     @NSManaged public var name: String
-    @NSManaged public var expiryDate: Date
-    @NSManaged public var location: String
+    @NSManaged public var expiryDate: Date?
+    @NSManaged public var location: Location
     @NSManaged public var meals: Set<Meal>
     @NSManaged public var parent: AbstractIngredient
 
