@@ -20,6 +20,17 @@ struct IngredientsView: View {
         ingredients.filter { $0.location == location }
     }
     
+    func deleteIngredients(at indices: IndexSet, in location: Location) {
+        let ingredients = self.ingredients(in: location)
+        indices.map { ingredients[$0] }.forEach(context.delete)
+        
+        do {
+            try context.save()
+        } catch {
+            Logger.coreData.error("IngredientsView failed to delete ingredients: \(error.localizedDescription)")
+        }
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -27,6 +38,9 @@ struct IngredientsView: View {
                     Section(header: Text(location.title)) {
                         ForEach(ingredients(in: location)) { ingredient in
                             IngredientRow(name: ingredient.name, expiryDate: ingredient.expiryDate)
+                        }
+                        .onDelete { indices in
+                            deleteIngredients(at: indices, in: location)
                         }
                     }
                 }

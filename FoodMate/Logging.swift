@@ -8,9 +8,8 @@
 import Foundation
 import os
 
-extension Logger {
-    private static var subsystem = Bundle.main.bundleIdentifier!
-
-    /// Logs Core Data events
-    static let coreData = Logger(subsystem: subsystem, category: "coreData")
+// Exposes `Logger` to the result of the module without having to `import os` in every file
+enum Logger {
+    private static let subsystem = Bundle.main.bundleIdentifier!
+    static let coreData = os.Logger(subsystem: subsystem, category: "coreData")
 }
