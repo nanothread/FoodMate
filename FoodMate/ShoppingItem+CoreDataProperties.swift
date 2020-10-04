@@ -36,10 +36,10 @@ extension ShoppingItem : Identifiable {
 }
 
 extension ShoppingItem {
-    convenience init(context: NSManagedObjectContext, name: String) {
+    convenience init(context: NSManagedObjectContext, name: String, status: ShoppingItemStatus) {
         self.init(context: context)
         self.name = name
         self.dateCreated = Date()
-        self.status = .pending
+        self.status = status
     }
 }

@@ -20,3 +20,7 @@ public enum Location: Int, CaseIterable {
         }
     }
 }
+
+extension Location: Identifiable {
+    public var id: Int { rawValue }
+}

@@ -13,6 +13,8 @@ struct ActiveShoppingItemView: View {
     
     var body: some View {
         HStack {
+            Image(systemName: "square")
+                .foregroundColor(Color(.systemGray))
             Text(name)
             Spacer()
             DatePicker("", selection: $date, displayedComponents: .date)
