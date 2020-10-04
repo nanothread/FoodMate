@@ -15,9 +15,12 @@ struct ShoppingListView: View {
     private var items: FetchedResults<ShoppingItem>
     
     @Environment(\.managedObjectContext) private var context
+    @EnvironmentObject private var searchProvider: SearchProvider
     
     @State private var newActiveItemName: String = ""
     @State private var newCompletedItemName: String = ""
+    
+    @State private var ingredientSearchResults = [AbstractIngredient]()
     
     var activeItems: [ShoppingItem] {
         items.filter { $0.status == .pending }
@@ -60,6 +63,7 @@ struct ShoppingListView: View {
         }
         
         _ = ShoppingItem(context: context, name: name.wrappedValue, status: status)
+        
         saveContext(actionDescription: "create item")
     }
     
@@ -83,16 +87,9 @@ struct ShoppingListView: View {
     
     /// Convert this shopping item into an `Ingredient`, deleting the original.
     func sortItem(_ item: ShoppingItem, into location: Location) {
-        if let parent = item.ingredient {
-            let newIngredient = Ingredient(context: context, parent: parent, expiryDate: item.expiryDate, location: location)
-            // Names should already be equal, but just to make sure...
-            newIngredient.name = item.name
-        } else {
-            let parent = AbstractIngredient(context: context)
-            parent.name = item.name
-            _ = Ingredient(context: context, parent: parent, expiryDate: item.expiryDate, location: location)
-        }
-        
+        let parent = item.ingredient ?? searchProvider.findOrMakeAbstractIngredient(named: item.name)
+        _ = Ingredient(context: context, parent: parent, expiryDate: item.expiryDate, location: location)
+
         context.delete(item)
         
         saveContext(actionDescription: "sort item")
@@ -117,6 +114,18 @@ struct ShoppingListView: View {
                     TextField("New Item...", text: $newActiveItemName, onCommit: {
                         createItem(name: $newActiveItemName, status: .pending)
                     })
+                    .onChange(of: newActiveItemName) { searchTerm in
+                        ingredientSearchResults = searchProvider.getAbstractIngredients(matching: searchTerm)
+                    }
+                    
+                    ForEach(ingredientSearchResults) { ingredient in
+                        Button {
+                            newActiveItemName = ingredient.name
+                            createItem(name: $newActiveItemName, status: .pending)
+                        } label: {
+                            Label(ingredient.name, systemImage: "magnifyingglass")
+                        }
+                    }
                 }
                 
                 Section(header: Text("To Sort")) {

@@ -54,4 +54,27 @@ class SearchProvider: ObservableObject {
         
         return []
     }
+    
+    func findOrMakeAbstractIngredient(named name: String) -> AbstractIngredient {
+        let formattedName = name.trimmingCharacters(in: .whitespaces).firstUppercased
+        
+        let request: NSFetchRequest<AbstractIngredient> = AbstractIngredient.fetchRequest()
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: "name ==[c] %@", argumentArray: [formattedName])
+        
+        var results = [AbstractIngredient]()
+        do {
+            results = try context.fetch(request)
+        } catch {
+            Logger.coreData.error("SearchProvider failed to fetch abstract ingredients matching \(formattedName): \(error.localizedDescription)")
+        }
+        
+        if let ingredient = results.first {
+            return ingredient
+        }
+        
+        let ingredient = AbstractIngredient(context: context)
+        ingredient.name = formattedName
+        return ingredient
+    }
 }
