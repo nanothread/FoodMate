@@ -10,12 +10,6 @@ import SwiftUI
 struct ContainerView: View {
     var body: some View {
         TabView {
-            IngredientsView()
-                .tabItem {
-                    Image(systemName: "cube.box")
-                    Text("Ingredients")
-                }
-            
             MealPlanView()
                 .tabItem {
                     Image(systemName: "calendar")
@@ -26,6 +20,12 @@ struct ContainerView: View {
                 .tabItem {
                     Image(systemName: "list.bullet")
                     Text("Shopping")
+                }
+            
+            IngredientsView()
+                .tabItem {
+                    Image(systemName: "cube.box")
+                    Text("Ingredients")
                 }
         }
     }
