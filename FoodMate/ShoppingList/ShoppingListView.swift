@@ -86,11 +86,14 @@ struct ShoppingListView: View {
             List {
                 Section(header: Text("To Buy")) {
                     ForEach(activeItems) { item in
-                        ShoppingItemRow(
+                        ActiveShoppingItemView(
                             name: item.name,
                             date: dateBinding(for: item),
-                            isChecked: checkBinding(for: item)
+                            completeItem: {
+                                toggleStatus(of: item)
+                            }
                         )
+                        .id(item.statusDependentID)
                     }
                     .onDelete { deleteItems(from: activeItems, at: $0) }
                     
@@ -101,12 +104,12 @@ struct ShoppingListView: View {
                 
                 Section(header: Text("To Sort")) {
                     ForEach(completedItems) { item in
-                        ShoppingItemRow(
+                        CompletedShoppingItemView(
                             name: item.name,
                             date: dateBinding(for: item),
-                            isChecked: checkBinding(for: item),
-                            onLocationTapped: { _ in }
+                            uncompleteItem: { toggleStatus(of: item) }
                         )
+                        .id(item.statusDependentID)
                     }
                     .onDelete { deleteItems(from: completedItems, at: $0) }
                     

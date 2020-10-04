@@ -42,4 +42,8 @@ extension ShoppingItem {
         self.dateCreated = Date()
         self.status = status
     }
+    
+    var statusDependentID: String {
+        "\(objectID.uriRepresentation().absoluteString):\(status.rawValue)"
+    }
 }

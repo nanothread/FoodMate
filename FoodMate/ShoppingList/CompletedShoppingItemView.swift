@@ -10,12 +10,15 @@ import SwiftUI
 struct CompletedShoppingItemView: View {
     var name: String
     @Binding var date: Date
-
+    var uncompleteItem: () -> Void
+    
     var body: some View {
         VStack {
             HStack {
-                Image(systemName: "checkmark.square")
-                    .foregroundColor(Color(.systemGray))
+                Button(action: uncompleteItem) {
+                        Image(systemName: "checkmark.square")
+                            .foregroundColor(Color(.systemGray))
+                }
                 Text(name)
                 Spacer()
                 DatePicker("", selection: $date, displayedComponents: .date)
@@ -32,11 +35,5 @@ struct CompletedShoppingItemView: View {
             }
             .frame(maxWidth: .infinity)
         }
-    }
-}
-
-struct CompletedShoppingItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompletedShoppingItemView(name: "Parmesan", date: Binding(get: { Date() }, set: { _ in }))
     }
 }
