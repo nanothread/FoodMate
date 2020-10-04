@@ -81,6 +81,23 @@ struct ShoppingListView: View {
         saveContext(actionDescription: "toggle status of \(item.name)")
     }
     
+    /// Convert this shopping item into an `Ingredient`, deleting the original.
+    func sortItem(_ item: ShoppingItem, into location: Location) {
+        if let parent = item.ingredient {
+            let newIngredient = Ingredient(context: context, parent: parent, expiryDate: item.expiryDate, location: location)
+            // Names should already be equal, but just to make sure...
+            newIngredient.name = item.name
+        } else {
+            let parent = AbstractIngredient(context: context)
+            parent.name = item.name
+            _ = Ingredient(context: context, parent: parent, expiryDate: item.expiryDate, location: location)
+        }
+        
+        context.delete(item)
+        
+        saveContext(actionDescription: "sort item")
+    }
+    
     var body: some View {
         NavigationView {
             List {
@@ -107,7 +124,8 @@ struct ShoppingListView: View {
                         CompletedShoppingItemView(
                             name: item.name,
                             date: dateBinding(for: item),
-                            uncompleteItem: { toggleStatus(of: item) }
+                            uncompleteItem: { toggleStatus(of: item) },
+                            sortInto: { sortItem(item, into: $0) }
                         )
                         .id(item.statusDependentID)
                         .buttonStyle(PlainButtonStyle())

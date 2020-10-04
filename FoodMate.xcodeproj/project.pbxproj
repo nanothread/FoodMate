@@ -40,7 +40,6 @@
 		3E961AA225291176005E660F /* ShoppingItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA125291176005E660F /* ShoppingItemStatus.swift */; };
 		3E961AA525291416005E660F /* ActiveShoppingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA425291416005E660F /* ActiveShoppingItemView.swift */; };
 		3E961AA82529E019005E660F /* CompletedShoppingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA72529E018005E660F /* CompletedShoppingItemView.swift */; };
-		3E961AAB2529E396005E660F /* ShoppingItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AAA2529E396005E660F /* ShoppingItemRow.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,7 +78,6 @@
 		3E961AA125291176005E660F /* ShoppingItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemStatus.swift; sourceTree = "<group>"; };
 		3E961AA425291416005E660F /* ActiveShoppingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveShoppingItemView.swift; sourceTree = "<group>"; };
 		3E961AA72529E018005E660F /* CompletedShoppingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedShoppingItemView.swift; sourceTree = "<group>"; };
-		3E961AAA2529E396005E660F /* ShoppingItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemRow.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -192,7 +190,6 @@
 				3E961A732528AE0A005E660F /* ShoppingListView.swift */,
 				3E961AA425291416005E660F /* ActiveShoppingItemView.swift */,
 				3E961AA72529E018005E660F /* CompletedShoppingItemView.swift */,
-				3E961AAA2529E396005E660F /* ShoppingItemRow.swift */,
 			);
 			path = ShoppingList;
 			sourceTree = "<group>";
@@ -315,7 +312,6 @@
 				3E961A8B2528BA15005E660F /* NSManagedObject+Extensions.swift in Sources */,
 				3E5211872528A8B800FD62BF /* Logging.swift in Sources */,
 				3E961AA525291416005E660F /* ActiveShoppingItemView.swift in Sources */,
-				3E961AAB2529E396005E660F /* ShoppingItemRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@ struct CompletedShoppingItemView: View {
     var name: String
     @Binding var date: Date
     var uncompleteItem: () -> Void
+    var sortInto: (Location) -> Void
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -28,7 +29,7 @@ struct CompletedShoppingItemView: View {
             HStack(spacing: 4) {
                 ForEach(Location.allCases) { location in
                     Button {
-                        
+                        sortInto(location)
                     } label: {
                         Text(location.title)
                             .foregroundColor(.white)
