@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// TODO: Edit the ingredients of meals
+// TODO: Drag and drop to reorder the plan
+
 struct MealPlanView: View {
     static let earliestDateOffset = -1
     @Environment(\.managedObjectContext) private var context

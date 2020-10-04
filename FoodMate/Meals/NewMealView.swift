@@ -42,6 +42,19 @@ struct NewMealView: View {
         }
     }
     
+    func addIngredient(named name: Binding<String>) {
+        defer {
+            name.wrappedValue = ""
+        }
+        
+        let trimmedName = name.wrappedValue.trimmingCharacters(in: .whitespaces)
+        guard !trimmedName.isEmpty else {
+            return
+        }
+        
+        ingredients.append(searchProvider.findOrMakeAbstractIngredient(named: trimmedName))
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -75,7 +88,14 @@ struct NewMealView: View {
                             Label(ingredient.name, systemImage: "magnifyingglass")
                         }
                     }
-                    // TODO: Have an 'Add' button if no search results. Creates a new abstract ingredient.
+                    
+                    if !ingredient.trimmingCharacters(in: .whitespaces).isEmpty {
+                        Button {
+                            addIngredient(named: $ingredient)
+                        } label: {
+                            Label("Add \(ingredient.trimmingCharacters(in: .whitespaces).firstUppercased)", systemImage: "plus")
+                        }
+                    }
                     
                     ForEach(ingredients) { ingredient in
                         Text(ingredient.name)
