@@ -11,4 +11,8 @@ extension Date {
     func adding(days: Int) -> Date {
         Calendar.current.date(byAdding: DateComponents(day: days), to: self)!
     }
+    
+    var daysFromToday: Int {
+        Calendar.current.dateComponents([.day], from: Date(), to: self).day!
+    }
 }

@@ -24,10 +24,6 @@ struct MealPlanView: View {
     
     @State private var creatingMealSpace: MealSpace?
     
-    var dates: [Date] {
-        (Self.earliestDateOffset ... 7).map { Date().adding(days: $0) }
-    }
-    
     func title(for day: Date) -> String {
         let cal = Calendar.current
         if cal.isDateInYesterday(day) {
@@ -64,21 +60,25 @@ struct MealPlanView: View {
         }
     }
     
+    func day(offset: Int) -> Date {
+        Date().adding(days: offset)
+    }
+    
     var body: some View {
         NavigationView {
             List {
-                ForEach(dates, id: \.timeIntervalSince1970) { day in
-                    Section(header: Text(title(for: day))) {
+                ForEach((Self.earliestDateOffset ... 7), id: \.self) { dayOffset in
+                    Section(header: Text(title(for: day(offset: dayOffset)))) {
                         ForEach(MealSlot.allCases) { slot in
-                            if let meal = self.meal(on: day, for: slot) {
+                            if let meal = self.meal(on: day(offset: dayOffset), for: slot) {
                                 MealRow(name: meal.name)
                             } else {
                                 EmptyMealSlotView(slot: slot.title) {
-                                    creatingMealSpace = MealSpace(day: day, slot: slot)
+                                    creatingMealSpace = MealSpace(day: day(offset: dayOffset), slot: slot)
                                 }
                             }
                         }
-                        .onDelete { deleteMeals(at: $0, on: day) }
+                        .onDelete { deleteMeals(at: $0, on: day(offset: dayOffset)) }
                     }
                 }
             }
