@@ -28,12 +28,13 @@ struct ShoppingListView: View {
         Binding(get: {
             item.expiryDate ?? Date()
         }, set: { date in
-            print("Setting expiry date for", item.name)
             if Calendar.current.isDateInToday(date) {
                 item.expiryDate = nil
             } else {
                 item.expiryDate = date
             }
+            
+            saveContext(actionDescription: "update expiry date")
         })
     }
     
@@ -47,21 +48,19 @@ struct ShoppingListView: View {
         }
         
         _ = ShoppingItem(context: context, name: newItemName)
-        
-        do {
-            try context.save()
-        } catch {
-            Logger.coreData.error("ShoppingListView failed to create item: \(error.localizedDescription)")
-        }
+        saveContext(actionDescription: "create item")
     }
     
     func deleteActiveItems(at indices: IndexSet) {
         indices.map { activeItems[$0] }.forEach(context.delete)
-        
+        saveContext(actionDescription: "delete active items")
+    }
+    
+    func saveContext(actionDescription: String) {
         do {
             try context.save()
         } catch {
-            Logger.coreData.error("ShoppingListView failed to delete active items: \(error.localizedDescription)")
+            Logger.coreData.error("ShoppingListView failed to \(actionDescription): \(error.localizedDescription)")
         }
     }
     
