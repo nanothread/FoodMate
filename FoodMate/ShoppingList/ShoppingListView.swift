@@ -11,7 +11,7 @@ struct ShoppingListView: View {
     @FetchRequest(entity: ShoppingItem.entity(),
                   sortDescriptors: [NSSortDescriptor(key: "dateCreated", ascending: true)],
                   predicate: nil,
-                  animation: .spring())
+                  animation: .easeInOut)
     private var items: FetchedResults<ShoppingItem>
     
     @Environment(\.managedObjectContext) private var context
@@ -110,6 +110,7 @@ struct ShoppingListView: View {
                             uncompleteItem: { toggleStatus(of: item) }
                         )
                         .id(item.statusDependentID)
+                        .buttonStyle(PlainButtonStyle())
                     }
                     .onDelete { deleteItems(from: completedItems, at: $0) }
                     

@@ -13,27 +13,35 @@ struct CompletedShoppingItemView: View {
     var uncompleteItem: () -> Void
     
     var body: some View {
-        VStack {
+        VStack(alignment: .leading) {
             HStack {
                 Button(action: uncompleteItem) {
                         Image(systemName: "checkmark.square")
                             .foregroundColor(Color(.systemGray))
                 }
+                
                 Text(name)
                 Spacer()
                 DatePicker("", selection: $date, displayedComponents: .date)
             }
             
-            HStack {
+            HStack(spacing: 4) {
                 ForEach(Location.allCases) { location in
                     Button {
                         
                     } label: {
                         Text(location.title)
+                            .foregroundColor(.white)
+                            .padding(.vertical, 4)
+                            .padding(.horizontal, 8)
+                            .background(
+                                Rectangle()
+                                    .foregroundColor(.blue)
+                                    .cornerRadius(6)
+                            )
                     }
                 }
             }
-            .frame(maxWidth: .infinity)
         }
     }
 }
