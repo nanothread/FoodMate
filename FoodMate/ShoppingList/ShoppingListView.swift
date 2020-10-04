@@ -51,7 +51,17 @@ struct ShoppingListView: View {
         do {
             try context.save()
         } catch {
-            Logger.coreData.error("ShoppingListView failed to delete ingredients: \(error.localizedDescription)")
+            Logger.coreData.error("ShoppingListView failed to create item: \(error.localizedDescription)")
+        }
+    }
+    
+    func deleteActiveItems(at indices: IndexSet) {
+        indices.map { activeItems[$0] }.forEach(context.delete)
+        
+        do {
+            try context.save()
+        } catch {
+            Logger.coreData.error("ShoppingListView failed to delete active items: \(error.localizedDescription)")
         }
     }
     
@@ -62,6 +72,7 @@ struct ShoppingListView: View {
                     ForEach(activeItems) { item in
                         ActiveShoppingItemView(name: item.name, date: dateBinding(for: item))
                     }
+                    .onDelete(perform: deleteActiveItems)
                     
                     TextField("New Item...", text: $newItemName, onCommit: createItem)
                 }
