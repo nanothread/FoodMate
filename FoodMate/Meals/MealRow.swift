@@ -8,15 +8,14 @@
 import SwiftUI
 
 struct MealRow: View {
-    var name: String
+    var meal: Meal
     
     var body: some View {
-        Text(name)
-    }
-}
-
-struct MealRow_Previews: PreviewProvider {
-    static var previews: some View {
-        MealRow(name: "Carbonara")
+        HStack {
+            if meal.ingredients.flatMap(\.children).contains(where: { $0.location == .freezer }) {
+                Image(systemName: "snow")
+            }
+            Text(meal.name)
+        }
     }
 }

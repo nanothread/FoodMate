@@ -72,7 +72,7 @@ struct MealPlanView: View {
                         ForEach(MealSlot.allCases) { slot in
                             if let meal = self.meal(on: day(offset: dayOffset), for: slot) {
                                 NavigationLink(destination: MealDetailView(meal: meal)) {
-                                    MealRow(name: meal.name)
+                                    MealRow(meal: meal)
                                 }
                             } else {
                                 EmptyMealSlotView(slot: slot.title) {

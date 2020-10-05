@@ -78,4 +78,6 @@ class SearchProvider: ObservableObject {
         ingredient.name = formattedName
         return ingredient
     }
+    
+    
 }
