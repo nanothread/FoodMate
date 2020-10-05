@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MealDetailView: View {
     @Environment(\.managedObjectContext) private var context
-    @EnvironmentObject private var searchProvider: SearchProvider
     
     @ObservedObject var meal: Meal
     
@@ -18,7 +17,6 @@ struct MealDetailView: View {
     }
     
     var ingredientsOutsideShoppingList: Set<AbstractIngredient> {
-//        searchProvider.findShoppingItems(whereParentIsIn: ingredients)
         meal.ingredients.filter { $0.shoppingItems.isEmpty }
     }
     
