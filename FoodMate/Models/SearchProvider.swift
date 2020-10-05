@@ -45,6 +45,7 @@ class SearchProvider: ObservableObject {
         request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", argumentArray: [trimmedTerm])
         request.propertiesToFetch = ["name"]
         request.returnsDistinctResults = true
+        request.sortDescriptors = [NSSortDescriptor(key: "scheduledDay", ascending: false)]
         
         do {
             return try context.fetch(request)
