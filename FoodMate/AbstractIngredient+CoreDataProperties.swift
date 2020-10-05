@@ -18,7 +18,7 @@ extension AbstractIngredient {
 
     @NSManaged public var name: String
     @NSManaged public var children: Set<Ingredient>
-
+    @NSManaged public var shoppingItems: Set<ShoppingItem>
 }
 
 // MARK: Generated accessors for children
@@ -40,4 +40,10 @@ extension AbstractIngredient {
 
 extension AbstractIngredient : Identifiable {
 
+}
+
+extension AbstractIngredient {
+    var shoppingItemDependentID: String {
+        "\(objectID.uriRepresentation().absoluteString):\(shoppingItems.count)"
+    }
 }

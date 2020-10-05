@@ -77,4 +77,17 @@ class SearchProvider: ObservableObject {
         ingredient.name = formattedName
         return ingredient
     }
+    
+//    func findShoppingItems(whereParentIsIn ingredients: [AbstractIngredient]) -> [ShoppingItem] {
+//        let request: NSFetchRequest<ShoppingItem> = ShoppingItem.fetchRequest()
+//        request.predicate = NSPredicate(format: "parent IN %@", argumentArray: [ingredients])
+//
+//        do {
+//            return try context.fetch(request)
+//        } catch {
+//            Logger.coreData.error("SearchProvider failed to fetch shopping items: \(error.localizedDescription)")
+//        }
+//
+//        return []
+//    }
 }

@@ -4,6 +4,7 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="children" toMany="YES" deletionRule="Nullify" destinationEntity="Ingredient" inverseName="parent" inverseEntity="Ingredient"/>
         <relationship name="meals" toMany="YES" deletionRule="Nullify" destinationEntity="Meal" inverseName="ingredients" inverseEntity="Meal"/>
+        <relationship name="shoppingItems" toMany="YES" deletionRule="Nullify" destinationEntity="ShoppingItem" inverseName="ingredient" inverseEntity="ShoppingItem"/>
     </entity>
     <entity name="Ingredient" representedClassName="Ingredient" syncable="YES">
         <attribute name="expiryDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
@@ -22,10 +23,10 @@
         <attribute name="expiryDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="status" optional="YES" attributeType="String"/>
-        <relationship name="ingredient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AbstractIngredient"/>
+        <relationship name="ingredient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AbstractIngredient" inverseName="shoppingItems" inverseEntity="AbstractIngredient"/>
     </entity>
     <elements>
-        <element name="AbstractIngredient" positionX="-27" positionY="45" width="128" height="88"/>
+        <element name="AbstractIngredient" positionX="-27" positionY="45" width="128" height="103"/>
         <element name="Ingredient" positionX="-54" positionY="-9" width="128" height="103"/>
         <element name="Meal" positionX="-63" positionY="-18" width="128" height="103"/>
         <element name="ShoppingItem" positionX="-45" positionY="45" width="128" height="118"/>

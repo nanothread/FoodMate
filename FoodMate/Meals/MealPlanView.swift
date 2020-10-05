@@ -71,7 +71,9 @@ struct MealPlanView: View {
                     Section(header: Text(title(for: day(offset: dayOffset)))) {
                         ForEach(MealSlot.allCases) { slot in
                             if let meal = self.meal(on: day(offset: dayOffset), for: slot) {
-                                MealRow(name: meal.name)
+                                NavigationLink(destination: MealDetailView(meal: meal)) {
+                                    MealRow(name: meal.name)
+                                }
                             } else {
                                 EmptyMealSlotView(slot: slot.title) {
                                     creatingMealSpace = MealSpace(day: day(offset: dayOffset), slot: slot)

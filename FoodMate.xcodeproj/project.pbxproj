@@ -40,6 +40,7 @@
 		3E961AA225291176005E660F /* ShoppingItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA125291176005E660F /* ShoppingItemStatus.swift */; };
 		3E961AA525291416005E660F /* ActiveShoppingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA425291416005E660F /* ActiveShoppingItemView.swift */; };
 		3E961AA82529E019005E660F /* CompletedShoppingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA72529E018005E660F /* CompletedShoppingItemView.swift */; };
+		3EFF38C9252BA963006C64F7 /* MealDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFF38C8252BA963006C64F7 /* MealDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		3E961AA125291176005E660F /* ShoppingItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemStatus.swift; sourceTree = "<group>"; };
 		3E961AA425291416005E660F /* ActiveShoppingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveShoppingItemView.swift; sourceTree = "<group>"; };
 		3E961AA72529E018005E660F /* CompletedShoppingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedShoppingItemView.swift; sourceTree = "<group>"; };
+		3EFF38C8252BA963006C64F7 /* MealDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,9 +114,9 @@
 			children = (
 				3E52114B252893E800FD62BF /* FoodMateApp.swift */,
 				3E961A6B2528AD22005E660F /* ContainerView.swift */,
-				3E52117E25289CEA00FD62BF /* Ingredients */,
 				3E5211892528ACAE00FD62BF /* Meals */,
 				3E961A722528ADFC005E660F /* ShoppingList */,
+				3E52117E25289CEA00FD62BF /* Ingredients */,
 				3E961A932528C07E005E660F /* Models */,
 				3E52117725289BB700FD62BF /* Structures */,
 				3E52117525289B1900FD62BF /* Core Data */,
@@ -180,6 +182,7 @@
 				3E961A7D2528B0CF005E660F /* MealRow.swift */,
 				3E961A802528B1B0005E660F /* EmptyMealSlotView.swift */,
 				3E961A8D2528BC7F005E660F /* NewMealView.swift */,
+				3EFF38C8252BA963006C64F7 /* MealDetailView.swift */,
 			);
 			path = Meals;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				3E961AA225291176005E660F /* ShoppingItemStatus.swift in Sources */,
 				3E961A7E2528B0CF005E660F /* MealRow.swift in Sources */,
 				3E961A912528BEB9005E660F /* MealSpace.swift in Sources */,
+				3EFF38C9252BA963006C64F7 /* MealDetailView.swift in Sources */,
 				3E961A8B2528BA15005E660F /* NSManagedObject+Extensions.swift in Sources */,
 				3E5211872528A8B800FD62BF /* Logging.swift in Sources */,
 				3E961AA525291416005E660F /* ActiveShoppingItemView.swift in Sources */,
