@@ -22,11 +22,17 @@ struct NewMealView: View {
     @Environment(\.presentationMode) private var presentation
     @Environment(\.managedObjectContext) private var context
 
+    @StateObject private var notificationManager = NotificationManager()
+    @StateObject private var store = CancellableStore()
+    
     func saveMeal() {
-        _ = Meal(context: context, name: name, space: space, ingredients: Set(ingredients))
+        let meal = Meal(context: context, name: name, space: space, ingredients: Set(ingredients))
         
         do {
             try context.save()
+            attemptToScheduleNotificationsFor(meal: meal) {
+                presentation.wrappedValue.dismiss()
+            }
         } catch {
             Logger.coreData.error("NewMealView failed to save meal: \(error.localizedDescription)")
         }
@@ -37,8 +43,30 @@ struct NewMealView: View {
 
         do {
             try context.save()
+            attemptToScheduleNotificationsFor(meal: meal) {
+                presentation.wrappedValue.dismiss()
+            }
         } catch {
             Logger.coreData.error("NewMealView failed to save meal: \(error.localizedDescription)")
+        }
+    }
+    
+    func attemptToScheduleNotificationsFor(meal: Meal, completion: @escaping () -> Void) {
+        if let publisher = notificationManager.considerSettingNotification(for: meal) {
+            publisher
+                .receive(on: DispatchQueue.main)
+                .sink { result in
+                    if case .failure(let error) = result {
+                        Logger.notifications.error("Failed to schedule notifications: \(error.localizedDescription)")
+                    } else {
+                        Logger.notifications.info("Scheduled notifications successfully")
+                    }
+                    
+                    completion()
+                } receiveValue: {  _ in }
+                .store(in: &store.cancellables)
+        } else {
+            completion()
         }
     }
     
@@ -67,7 +95,6 @@ struct NewMealView: View {
                     ForEach(mealSearchResults) { meal in
                         Button {
                             saveDuplicateOf(meal: meal)
-                            presentation.wrappedValue.dismiss()
                         } label: {
                             Label(meal.name, systemImage: "magnifyingglass")
                         }
@@ -115,7 +142,6 @@ struct NewMealView: View {
                 trailing:
                     Button {
                         saveMeal()
-                        presentation.wrappedValue.dismiss()
                     } label: {
                         Text("Done")
                     }

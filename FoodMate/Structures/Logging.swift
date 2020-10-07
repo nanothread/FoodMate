@@ -12,4 +12,5 @@ import os
 enum Logger {
     private static let subsystem = Bundle.main.bundleIdentifier!
     static let coreData = os.Logger(subsystem: subsystem, category: "coreData")
+    static let notifications = os.Logger(subsystem: subsystem, category: "notifications")
 }
