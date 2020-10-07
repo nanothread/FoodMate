@@ -10,6 +10,7 @@ import UserNotifications
 import Combine
 import CoreData
 
+// TODO: Change scheduled notifications if the meal is deleted or if it changes days.
 class NotificationManager: ObservableObject {
     enum Error: Swift.Error {
         case permissionDenied

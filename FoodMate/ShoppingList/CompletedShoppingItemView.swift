@@ -37,7 +37,7 @@ struct CompletedShoppingItemView: View {
                             .padding(.horizontal, 8)
                             .background(
                                 Rectangle()
-                                    .foregroundColor(.blue)
+                                    .foregroundColor(.accentColor)
                                     .cornerRadius(6)
                             )
                     }
