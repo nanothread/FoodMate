@@ -17,7 +17,14 @@ struct IngredientsView: View {
     @State private var isAddingNewIngredients = false
     
     private func ingredients(in location: Location) -> [Ingredient] {
-        ingredients.filter { $0.location == location }
+        ingredients.filter { $0.location == location }.sorted {
+            switch ($0.expiryDate, $1.expiryDate) {
+            case (.some(let f), .some(let s)): return f < s
+            case (.some(_), .none): return true
+            case (.none, .some(_)): return false
+            case (.none, .none): return $0.name < $1.name
+            }
+        }
     }
     
     func deleteIngredients(at indices: IndexSet, in location: Location) {
