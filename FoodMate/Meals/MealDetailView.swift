@@ -55,6 +55,21 @@ struct MealDetailView: View {
         saveContext(actionDescription: "remove all ingredients from shopping list")
     }
     
+    func removeConcreteIngredient(parent: AbstractIngredient) {
+        meal.objectWillChange.send()
+        // Delete ingredient with earliest expiry date
+        parent.children.sorted {
+            switch ($0.expiryDate, $1.expiryDate) {
+            case (.some(let f), .some(let s)): return f < s
+            case (.some(_), .none): return true
+            case (.none, .some(_)): return false
+            case (.none, .none): return true
+            }
+        }.first.map(context.delete)
+        
+        saveContext(actionDescription: "remove concrete ingredient")
+    }
+    
     func saveContext(actionDescription: String) {
         do {
             try context.save()
@@ -89,17 +104,33 @@ struct MealDetailView: View {
                     .id(ingredient.shoppingItemDependentID)
                 }
                 .onDelete(perform: deleteIngredients)
-            }
-            
-            Section {
+                
                 if ingredientsOutsideShoppingList.isEmpty {
                     Button(action: removeAllIngredientsFromShoppingList) {
-                        Label("Remove All", systemImage: "trash")
+                        Label("Remove All From List", systemImage: "trash")
                             .foregroundColor(.red)
                     }
                 } else {
                     Button(action: addRemainingIngredientsToShoppingList) {
-                        Label(ingredientsOutsideShoppingList.count == meal.ingredients.count ? "Add All" : "Add Remaining", systemImage: "plus")
+                        Label(ingredientsOutsideShoppingList.count == meal.ingredients.count ? "Add All To List" : "Add Remaining To List", systemImage: "plus")
+                    }
+                }
+            }
+            
+            if ingredients.contains(where: { !$0.children.isEmpty }) {
+                Section(header: Text("Manage"), footer: Text("Tap to remove the ingredient from storage once you've made this meal.")) {
+                    ForEach(ingredients.filter { !$0.children.isEmpty }) { ingredient in
+                        Button {
+                            removeConcreteIngredient(parent: ingredient)
+                        } label: {
+                            HStack {
+                                Image(systemName: "cube.box")
+                                    .foregroundColor(.red)
+                                
+                                Text(ingredient.name)
+                                    .foregroundColor(.primary)
+                            }
+                        }
                     }
                 }
             }
