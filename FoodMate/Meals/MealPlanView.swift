@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Introspect
 
 // TODO: Edit the ingredients of meals
 // TODO: Drag and drop to reorder the plan
@@ -73,6 +74,7 @@ struct MealPlanView: View {
                             if let meal = self.meal(on: day(offset: dayOffset), for: slot) {
                                 NavigationLink(destination: MealDetailView(meal: meal)) {
                                     MealRow(meal: meal)
+                                        .onDrag { NSItemProvider(object: meal.objectID.uriRepresentation().absoluteString as NSString) }
                                 }
                             } else {
                                 EmptyMealSlotView(slot: slot.title) {
@@ -83,6 +85,9 @@ struct MealPlanView: View {
                         .onDelete { deleteMeals(at: $0, on: day(offset: dayOffset)) }
                     }
                 }
+            }
+            .introspectTableView {
+                $0.dragInteractionEnabled = true
             }
             .navigationTitle("Meal Plan")
             .listStyle(InsetGroupedListStyle())
