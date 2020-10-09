@@ -9,6 +9,7 @@ import SwiftUI
 import Introspect
 import UniformTypeIdentifiers
 import CoreData
+import UIKit
 
 // TODO: Edit the ingredients of meals
 // TODO: Drag and drop to reorder the plan
@@ -16,6 +17,14 @@ import CoreData
 struct EmptyMealDropDelegate: DropDelegate {
     var context: NSManagedObjectContext
     var targetSpace: MealSpace
+    
+    func validateDrop(info: DropInfo) -> Bool {
+        true
+    }
+    
+    func dropUpdated(info: DropInfo) -> DropProposal? {
+        DropProposal(operation: .move)
+    }
     
     func performDrop(info: DropInfo) -> Bool {
         guard let provider = info.itemProviders(for: [.text]).first else {
@@ -50,6 +59,28 @@ struct EmptyMealDropDelegate: DropDelegate {
     }
 }
 
+class TableViewDropDelegate: NSObject, UITableViewDropDelegate, ObservableObject {
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        
+    }
+    
+    func tableView(_ tableView: UITableView, canHandle session: UIDropSession) -> Bool {
+        true
+    }
+    
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+        .init(operation: .move, intent: .insertAtDestinationIndexPath)
+    }
+}
+
+class TableViewDragDelegate: NSObject, UITableViewDragDelegate, ObservableObject {
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        [.init(itemProvider: NSItemProvider(object: "sdfsdfsdf" as NSString))]
+    }
+    
+    
+}
+
 struct MealPlanView: View {
     static let earliestDateOffset = -1
     @Environment(\.managedObjectContext) private var context
@@ -63,6 +94,8 @@ struct MealPlanView: View {
     private var meals: FetchedResults<Meal>
     
     @State private var creatingMealSpace: MealSpace?
+    @StateObject private var dropDelegate = TableViewDropDelegate()
+    @StateObject private var dragDelegate = TableViewDragDelegate()
     
     func title(for day: Date) -> String {
         let cal = Calendar.current
@@ -113,13 +146,13 @@ struct MealPlanView: View {
                             if let meal = self.meal(on: day(offset: dayOffset), for: slot) {
                                 NavigationLink(destination: MealDetailView(meal: meal)) {
                                     MealRow(meal: meal)
-                                        .onDrag { NSItemProvider(object: meal.objectID.uriRepresentation().absoluteString as NSString) }
+//                                        .onDrag { NSItemProvider(object: meal.objectID.uriRepresentation().absoluteString as NSString) }
                                 }
                             } else {
                                 EmptyMealSlotView(slot: slot.title) {
                                     creatingMealSpace = MealSpace(day: day(offset: dayOffset), slot: slot)
                                 }
-                                .onDrop(of: [.text], delegate: EmptyMealDropDelegate(context: context, targetSpace: MealSpace(day: day(offset: dayOffset), slot: slot)))
+//                                .onDrop(of: [.text], delegate: EmptyMealDropDelegate(context: context, targetSpace: MealSpace(day: day(offset: dayOffset), slot: slot)))
                             }
                         }
                         .onDelete { deleteMeals(at: $0, on: day(offset: dayOffset)) }
@@ -128,6 +161,8 @@ struct MealPlanView: View {
             }
             .introspectTableView {
                 $0.dragInteractionEnabled = true
+                $0.dropDelegate = dropDelegate
+                $0.dragDelegate = dragDelegate
             }
             .navigationTitle("Meal Plan")
             .listStyle(InsetGroupedListStyle())
