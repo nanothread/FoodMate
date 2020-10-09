@@ -7,9 +7,48 @@
 
 import SwiftUI
 import Introspect
+import UniformTypeIdentifiers
+import CoreData
 
 // TODO: Edit the ingredients of meals
 // TODO: Drag and drop to reorder the plan
+
+struct EmptyMealDropDelegate: DropDelegate {
+    var context: NSManagedObjectContext
+    var targetSpace: MealSpace
+    
+    func performDrop(info: DropInfo) -> Bool {
+        guard let provider = info.itemProviders(for: [.text]).first else {
+            return false
+        }
+        
+        provider.loadObject(ofClass: NSString.self) { item, error in
+            guard let uri = item as? NSString else {
+                Logger.dragDrop.error("EmptyMealDropDelegate failed to load string: \(String(describing: error))")
+                return
+            }
+            
+            guard let url = URL(string: uri as String),
+                  let id = context.persistentStoreCoordinator?.managedObjectID(forURIRepresentation: url)
+            else {
+                Logger.dragDrop.error("EmptyMealDropDelegate failed to resolve uri into managed object id.")
+                return
+            }
+            
+            do {
+                let meal = try context.existingObject(with: id) as! Meal
+                meal.scheduledDay = targetSpace.day
+                meal.scheduledSlot = targetSpace.slot
+                try context.save()
+            }
+            catch {
+                Logger.dragDrop.error("EmptyMealDropDelegate failed to get object for ID or to save changes: \(error.localizedDescription)")
+            }
+        }
+        
+        return true
+    }
+}
 
 struct MealPlanView: View {
     static let earliestDateOffset = -1
@@ -80,6 +119,7 @@ struct MealPlanView: View {
                                 EmptyMealSlotView(slot: slot.title) {
                                     creatingMealSpace = MealSpace(day: day(offset: dayOffset), slot: slot)
                                 }
+                                .onDrop(of: [.text], delegate: EmptyMealDropDelegate(context: context, targetSpace: MealSpace(day: day(offset: dayOffset), slot: slot)))
                             }
                         }
                         .onDelete { deleteMeals(at: $0, on: day(offset: dayOffset)) }
