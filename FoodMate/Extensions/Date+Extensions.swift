@@ -15,4 +15,12 @@ extension Date {
     var daysFromToday: Int {
         Calendar.current.dateComponents([.day], from: Date(), to: self).day!
     }
+    
+    func isInSameDay(as other: Date) -> Bool {
+        Calendar.current.compare(self, to: other, toGranularity: .day) == .orderedSame
+    }
+    
+    static func offsetByDays(_ days: Int) -> Date {
+        Date().adding(days: days)
+    }
 }

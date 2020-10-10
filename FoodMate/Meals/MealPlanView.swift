@@ -11,25 +11,91 @@ import UIKit
 
 extension UICollectionViewDiffableDataSource: ObservableObject {}
 extension UICollectionView: ObservableObject {}
+typealias DataSource = UICollectionViewDiffableDataSource<DayOffset, MealSlotType>
 
-class CollectionViewManager: ObservableObject {
-    typealias DataSource = UICollectionViewDiffableDataSource<Date, MealSlotType>
+//struct MealPlanDay: Hashable {
+//    var date: Date
+//
+//    init(offsetFromToday: Int) {
+//        date = Date().adding(days: offsetFromToday)
+//    }
+//}
+
+typealias DayOffset = Int
+
+class MealPlanModel {
+    private var cellModels = [DayOffset: [MealSlotType]]()
+    var dayOffsets: [DayOffset]
+    var dataSource: DataSource?
     
-    var dayOffsets: [Int]
-    private var dataSource: DataSource?
-    
-    internal init(dayOffsets: [Int]) {
+    init(dayOffsets: [DayOffset]) {
         self.dayOffsets = dayOffsets
     }
     
-    lazy var collectionViewController: UICollectionViewController = {
+    func refresh(withMeals meals: Set<Meal>) {
+        for offset in dayOffsets {
+            let day = Date().adding(days: offset)
+            let eligibleMeals = meals.filter { $0.scheduledDay.isInSameDay(as: day) }
+            let models: [MealSlotType] = MealSlot.allCases.map { slot in
+                if let meal = eligibleMeals.first(where: { $0.scheduledSlot == slot }) {
+                    return .filled(meal)
+                } else {
+                    return .empty(MealSpace(day: day, slot: slot))
+                }
+            }
+            
+            cellModels[offset] = models
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<DayOffset, MealSlotType>()
+        snapshot.appendSections(dayOffsets)
+        
+        for offset in dayOffsets {
+            guard let models = cellModels[offset] else { continue }
+            snapshot.appendItems(models, toSection: offset)
+        }
+
+        dataSource?.apply(snapshot)
+    }
+    
+    func cellModel(at indexPath: IndexPath) -> MealSlotType {
+        let section = cellModels.keys.sorted()[indexPath.section]
+        return cellModels[section]![indexPath.row] // TODO safe assertions
+    }
+}
+
+class CollectionViewManager: ObservableObject {
+    var sections = [DayOffset]()
+    lazy private var model = MealPlanModel(dayOffsets: sections)
+
+    private(set) var collectionViewController: UICollectionViewController!
+    
+    internal init(dayOffsets: [Int]) {
+        sections = dayOffsets
+    }
+    
+    private func makeCollectionViewController(deleteMeal: @escaping (Meal) -> Bool) -> UICollectionViewController {
         var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         config.headerMode = .supplementary
+        config.trailingSwipeActionsConfigurationProvider = { indexPath in
+            guard case .filled(let meal) = self.model.cellModel(at: indexPath) else { return nil }
+            return UISwipeActionsConfiguration(actions: [
+                UIContextualAction(
+                    style: .destructive,
+                    title: NSLocalizedString("Delete", comment: "Destroy, remove, erase."),
+                    handler: { _, _, completion in
+                        completion(deleteMeal(meal))
+                    }
+                )
+            ])
+        }
+        
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         return UICollectionViewController(collectionViewLayout: layout)
-    }()
+    }
     
-    fileprivate func configure(meals: [Meal], cellRegistration: CellRegistration) {
+    fileprivate func configure(meals: Set<Meal>, cellRegistration: CellRegistration, deleteMeal: @escaping (Meal) -> Bool) {
+        collectionViewController = makeCollectionViewController(deleteMeal: deleteMeal)
         let collectionView = collectionViewController.collectionView!
         
         // Set up data source
@@ -44,43 +110,19 @@ class CollectionViewManager: ObservableObject {
             guard elementKind == UICollectionView.elementKindSectionHeader else { return nil }
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: "header", for: indexPath) as! UICollectionViewListCell
             var config = view.defaultContentConfiguration()
-            config.text = self.headerTitle(for: Date().adding(days: self.dayOffsets[indexPath.section]))
+            config.text = self.headerTitle(for: Date().adding(days: self.sections[indexPath.section]))
             view.contentConfiguration = config
             return view
         }
         
         collectionView.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = dataSource
-        self.dataSource = dataSource
-        
-        // Populate data source
+        model.dataSource = dataSource
         refresh(withMeals: meals)
     }
     
-    func refresh(withMeals meals: [Meal]) {
-        guard let dataSource = dataSource else {
-            assertionFailure("Trying to call CollectionViewManager.refresh before data source has been created (using .configure)")
-            return
-        }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Date, MealSlotType>()
-        let sections = dayOffsets.map { Date().adding(days: $0) }
-        snapshot.appendSections(sections)
-        
-        for section in sections {
-            let eligibleMeals = meals.filter { Calendar.current.compare($0.scheduledDay, to: section, toGranularity: .day) == .orderedSame }
-            let models: [MealSlotType] = MealSlot.allCases.map { slot in
-                if let meal = eligibleMeals.first(where: { $0.scheduledSlot == slot }) {
-                    return .filled(meal)
-                } else {
-                    return .empty(MealSpace(day: section, slot: slot))
-                }
-            }
-            
-            snapshot.appendItems(models, toSection: section)
-        }
-
-        dataSource.apply(snapshot)
+    func refresh(withMeals meals: Set<Meal>) {
+        model.refresh(withMeals: meals)
     }
     
     private func headerTitle(for day: Date) -> String {
@@ -136,11 +178,12 @@ struct MealPlanController: UIViewControllerRepresentable {
                   ]),
                   animation: nil)
     private var meals: FetchedResults<Meal>
-
+    
+    @Environment(\.managedObjectContext) private var context
     
     func makeUIViewController(context: Context) -> UIViewControllerType {
         viewManager.configure(
-            meals: Array(meals),
+            meals: Set(meals),
             cellRegistration: CellRegistration { cell, indexPath, slotType in
                 switch slotType {
                 case .filled(let meal):
@@ -150,7 +193,8 @@ struct MealPlanController: UIViewControllerRepresentable {
                         creatingMealSpace = space
                     }))
                 }
-            }
+            },
+            deleteMeal: deleteMeal
         )
         
         let navigationController = UINavigationController(rootViewController: viewManager.collectionViewController)
@@ -161,7 +205,19 @@ struct MealPlanController: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
         print("Updating meal plan view!", meals.map(\.name))
-        viewManager.refresh(withMeals: Array(meals))
+        viewManager.refresh(withMeals: Set(meals))
+    }
+    
+    func deleteMeal(_ meal: Meal) -> Bool {
+        do {
+            context.delete(meal)
+            try context.save()
+            return true
+        }
+        catch {
+            Logger.coreData.error("MealPlanController failed to delete meal: \(error.localizedDescription)")
+            return false
+        }
     }
 }
 

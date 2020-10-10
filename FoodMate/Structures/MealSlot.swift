@@ -17,3 +17,9 @@ public enum MealSlot: String, CaseIterable {
 extension MealSlot: Identifiable {
     public var id: String { rawValue }
 }
+
+extension MealSlot: Comparable {
+    public static func < (lhs: MealSlot, rhs: MealSlot) -> Bool {
+        return lhs == .lunch && rhs == .dinner
+    }
+}

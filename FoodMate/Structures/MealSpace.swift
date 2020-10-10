@@ -20,3 +20,10 @@ extension MealSpace: Hashable {
         hasher.combine(slot)
     }
 }
+
+extension MealSpace: Comparable {
+    static func < (lhs: MealSpace, rhs: MealSpace) -> Bool {
+        Calendar.current.compare(lhs.day, to: rhs.day, toGranularity: .day) == .orderedAscending &&
+            lhs.slot < rhs.slot
+    }
+}
