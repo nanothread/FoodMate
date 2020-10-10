@@ -54,6 +54,15 @@ class CollectionViewManager: ObservableObject {
         self.dataSource = dataSource
         
         // Populate data source
+        refresh(withMeals: meals)
+    }
+    
+    func refresh(withMeals meals: [Meal]) {
+        guard let dataSource = dataSource else {
+            assertionFailure("Trying to call CollectionViewManager.refresh before data source has been created (using .configure)")
+            return
+        }
+        
         var snapshot = NSDiffableDataSourceSnapshot<Date, MealSlotType>()
         let sections = dayOffsets.map { Date().adding(days: $0) }
         snapshot.appendSections(sections)
@@ -98,6 +107,9 @@ struct MealPlanView: View {
     var body: some View {
         MealPlanController(creatingMealSpace: $creatingMealSpace)
             .edgesIgnoringSafeArea(.all)
+            .sheet(item: $creatingMealSpace) { mealSpace in
+                NewMealView(space: mealSpace)
+            }
     }
 }
 
@@ -148,7 +160,8 @@ struct MealPlanController: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        
+        print("Updating meal plan view!", meals.map(\.name))
+        viewManager.refresh(withMeals: Array(meals))
     }
 }
 
