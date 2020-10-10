@@ -13,15 +13,15 @@ extension UICollectionViewDiffableDataSource: ObservableObject {}
 extension UICollectionView: ObservableObject {}
 
 class CollectionViewManager: ObservableObject {
-    lazy var collectionView: UICollectionView = {
+    lazy var collectionViewController: UICollectionViewController = {
         let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         let layout = UICollectionViewCompositionalLayout.list(using: config)
-        return UICollectionView(frame: .zero, collectionViewLayout: layout)
+        return UICollectionViewController(collectionViewLayout: layout)
     }()
     
     lazy var dataSource: UICollectionViewDiffableDataSource = {
         UICollectionViewDiffableDataSource<Date, Meal>(
-            collectionView: collectionView,
+            collectionView: collectionViewController.collectionView,
             cellProvider: { collectionView, indexPath, meal in
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MealPlanCell
                 cell.configure(withMeal: meal)
@@ -33,14 +33,14 @@ class CollectionViewManager: ObservableObject {
 
 struct MealPlanView: View {
     var body: some View {
-        NavigationView {
-            MealPlanListView()
-                .navigationTitle("Meal Plan")
-        }
+        MealPlanController()
+            .background(Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all))
     }
 }
 
-struct MealPlanListView: UIViewRepresentable {
+struct MealPlanController: UIViewControllerRepresentable {
+    typealias UIViewControllerType = UINavigationController
+    
     @StateObject var viewManager = CollectionViewManager()
     @FetchRequest(entity: Meal.entity(),
                   sortDescriptors: [],
@@ -50,8 +50,8 @@ struct MealPlanListView: UIViewRepresentable {
                   animation: nil)
     private var meals: FetchedResults<Meal>
     
-    func makeUIView(context: Context) -> UICollectionView {
-        let collectionView = viewManager.collectionView
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        let collectionView = viewManager.collectionViewController.collectionView!
         let dataSource = viewManager.dataSource
         
         collectionView.register(MealPlanCell.self, forCellWithReuseIdentifier: "cell")
@@ -63,10 +63,14 @@ struct MealPlanListView: UIViewRepresentable {
         snapshot.appendItems(Array(meals), toSection: today)
         dataSource.apply(snapshot)
         
-        return collectionView
+        
+        let navigationController = UINavigationController(rootViewController: viewManager.collectionViewController)
+        viewManager.collectionViewController.title = "Meal Plan"
+        navigationController.navigationBar.prefersLargeTitles = true
+        return navigationController
     }
     
-    func updateUIView(_ uiView: UICollectionView, context: Context) {
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
         
     }
 }

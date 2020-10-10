@@ -31,28 +31,27 @@ struct MealRow: View {
     }
     
     var body: some View {
-        NavigationLink(destination: MealDetailView(meal: meal)) {
-            HStack {
-                if meal.ingredients.flatMap(\.children).contains(where: { $0.location == .freezer }) {
-                    Image(systemName: "snow")
-                        .foregroundColor(.blue)
-                }
-                Text(meal.name)
-                
-                Spacer()
-                
-                Group {
-                    ForEach(IngredientLocation.allCases) { location in
-                        HStack(spacing: 4) {
-                            Text("\(countIngredients(in: location))")
-                            Image(systemName: location.systemImage)
-                        }
+        HStack {
+            if meal.ingredients.flatMap(\.children).contains(where: { $0.location == .freezer }) {
+                Image(systemName: "snow")
+                    .foregroundColor(.blue)
+            }
+            Text(meal.name)
+            
+            Spacer()
+            
+            Group {
+                ForEach(IngredientLocation.allCases) { location in
+                    HStack(spacing: 4) {
+                        Text("\(countIngredients(in: location))")
+                        Image(systemName: location.systemImage)
                     }
                 }
-                .foregroundColor(.gray)
-                .imageScale(.small)
-                .font(.callout)
             }
+            .foregroundColor(.gray)
+            .imageScale(.small)
+            .font(.callout)
         }
+        .padding(.horizontal)
     }
 }
