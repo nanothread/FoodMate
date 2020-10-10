@@ -88,6 +88,7 @@ class MealPlanCell: UICollectionViewListCell {
             hostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             hostingController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             hostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            hostingController.view.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
         ])
         
         self.hostingController = hostingController
