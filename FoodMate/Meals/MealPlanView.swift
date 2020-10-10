@@ -70,6 +70,9 @@ class CollectionViewManager: ObservableObject {
 
     private(set) var collectionViewController: UICollectionViewController!
     
+    private var dragDelegate = CollectionViewDragDelegate()
+    private var dropDelegate = CollectionViewDropDelegate()
+    
     internal init(dayOffsets: [Int]) {
         sections = dayOffsets
     }
@@ -117,7 +120,11 @@ class CollectionViewManager: ObservableObject {
         
         collectionView.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = dataSource
+        collectionView.dragInteractionEnabled = true
+        collectionView.dragDelegate = dragDelegate
+        collectionView.dropDelegate = dropDelegate
         model.dataSource = dataSource
+        
         refresh(withMeals: meals)
     }
     
