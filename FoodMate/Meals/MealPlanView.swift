@@ -57,13 +57,13 @@ class CollectionViewManager: ObservableObject {
     private func headerTitle(for day: Date) -> String {
         let cal = Calendar.current
         if cal.isDateInYesterday(day) {
-            return "Yesterday"
+            return NSLocalizedString("Yesterday", comment: "The day before today.")
         }
         if cal.isDateInToday(day) {
-            return "Today"
+            return NSLocalizedString("Today", comment: "The current day.")
         }
         if cal.isDateInTomorrow(day) {
-            return "Tomorrow"
+            return NSLocalizedString("Tomorrow", comment: "The day after today.")
         }
         
         let formatter = DateFormatter()
