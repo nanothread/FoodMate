@@ -26,13 +26,19 @@ class CollectionViewManager: ObservableObject {
         return UICollectionViewController(collectionViewLayout: layout)
     }()
     
-    lazy var dataSource: UICollectionViewDiffableDataSource<Date, Meal> = {
-        let dataSource = UICollectionViewDiffableDataSource<Date, Meal>(
+    lazy var dataSource: UICollectionViewDiffableDataSource<Date, MealSlotType> = {
+        let dataSource = UICollectionViewDiffableDataSource<Date, MealSlotType>(
             collectionView: collectionViewController.collectionView,
             cellProvider: { collectionView, indexPath, meal in
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MealPlanCell
-                cell.configure(withMeal: meal)
-                return cell
+                if case .filled(let meal) = meal  {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mealCell", for: indexPath) as! MealPlanCell
+                    cell.configure(withMeal: meal)
+                    return cell
+                } else {
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "hostingCell", for: indexPath) as! HostingCollectionViewCell
+                    cell.host(rootView: EmptyMealSlotView(slot: MealSlot.allCases[indexPath.row].title, action: {}))
+                    return cell
+                }
             }
         )
         
@@ -73,6 +79,14 @@ struct MealPlanView: View {
     }
 }
 
+// Can't just be optional because we need each model instance to be identifiable
+enum MealSlotModel: Hashable, Equatable {
+    case filled(Meal)
+    case empty(MealSpace)
+}
+
+typealias MealSlotType = MealSlotModel
+
 struct MealPlanController: UIViewControllerRepresentable {
     typealias UIViewControllerType = UINavigationController
     static let dayOffsets = Array(-1 ... 7)
@@ -90,14 +104,29 @@ struct MealPlanController: UIViewControllerRepresentable {
         let collectionView = viewManager.collectionViewController.collectionView!
         let dataSource = viewManager.dataSource
         
-        collectionView.register(MealPlanCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(MealPlanCell.self, forCellWithReuseIdentifier: "mealCell")
+        collectionView.register(HostingCollectionViewCell.self, forCellWithReuseIdentifier: "hostingCell")
+
         collectionView.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = dataSource
         
-        var snapshot = NSDiffableDataSourceSnapshot<Date, Meal>()
+        var snapshot = NSDiffableDataSourceSnapshot<Date, MealSlotType>()
         let sections = Self.dayOffsets.map { Date().adding(days: $0) }
         snapshot.appendSections(sections)
-        snapshot.appendItems(Array(meals), toSection: sections[0])
+        
+        for section in sections {
+            let eligibleMeals = meals.filter { Calendar.current.compare($0.scheduledDay, to: section, toGranularity: .day) == .orderedSame }
+            let models: [MealSlotType] = MealSlot.allCases.map { slot in
+                if let meal = eligibleMeals.first(where: { $0.scheduledSlot == slot }) {
+                    return .filled(meal)
+                } else {
+                    return .empty(MealSpace(day: section, slot: slot))
+                }
+            }
+            
+            snapshot.appendItems(models, toSection: section)
+        }
+
         dataSource.apply(snapshot)
         
         
@@ -141,5 +170,28 @@ class MealPlanCell: UICollectionViewListCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+class HostingCollectionViewCell: UICollectionViewCell {
+    private var hostingView: UIView?
+    
+    func host<Content: View>(rootView: Content) {
+        hostingView?.removeFromSuperview()
+        
+        let hostingController = UIHostingController(rootView: rootView)
+        
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(hostingController.view)
+        
+        NSLayoutConstraint.activate([
+            hostingController.view.topAnchor.constraint(equalTo: contentView.topAnchor),
+            hostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            hostingController.view.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
+        ])
+        
+        hostingView = hostingController.view
     }
 }

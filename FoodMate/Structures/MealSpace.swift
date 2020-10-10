@@ -13,3 +13,10 @@ struct MealSpace: Identifiable {
     var day: Date
     var slot: MealSlot
 }
+
+extension MealSpace: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(day)
+        hasher.combine(slot)
+    }
+}
