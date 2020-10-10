@@ -14,9 +14,11 @@ extension UICollectionView: ObservableObject {}
 
 class CollectionViewManager: ObservableObject {
     var dayOffsets: [Int]
+    var cellRegistration: UICollectionView.CellRegistration<HostingCollectionViewCell, MealSlotType>
     
-    init(dayOffsets: [Int]) {
+    internal init(dayOffsets: [Int], cellRegistration: UICollectionView.CellRegistration<HostingCollectionViewCell, MealSlotType>) {
         self.dayOffsets = dayOffsets
+        self.cellRegistration = cellRegistration
     }
     
     lazy var collectionViewController: UICollectionViewController = {
@@ -30,15 +32,7 @@ class CollectionViewManager: ObservableObject {
         let dataSource = UICollectionViewDiffableDataSource<Date, MealSlotType>(
             collectionView: collectionViewController.collectionView,
             cellProvider: { collectionView, indexPath, meal in
-                if case .filled(let meal) = meal  {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "hostingCell", for: indexPath) as! HostingCollectionViewCell
-                    cell.host(rootView: MealRow(meal: meal))
-                    return cell
-                } else {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "hostingCell", for: indexPath) as! HostingCollectionViewCell
-                    cell.host(rootView: EmptyMealSlotView(slot: MealSlot.allCases[indexPath.row].title, action: {}))
-                    return cell
-                }
+                collectionView.dequeueConfiguredReusableCell(using: self.cellRegistration, for: indexPath, item: meal)
             }
         )
         
@@ -73,8 +67,10 @@ class CollectionViewManager: ObservableObject {
 }
 
 struct MealPlanView: View {
+    @State private var creatingMealSpace: MealSpace?
+    
     var body: some View {
-        MealPlanController()
+        MealPlanController(creatingMealSpace: $creatingMealSpace)
             .edgesIgnoringSafeArea(.all)
     }
 }
@@ -91,7 +87,9 @@ struct MealPlanController: UIViewControllerRepresentable {
     typealias UIViewControllerType = UINavigationController
     static let dayOffsets = Array(-1 ... 7)
     
-    @StateObject var viewManager = CollectionViewManager(dayOffsets: Self.dayOffsets)
+    @Binding var creatingMealSpace: MealSpace?
+    
+    @StateObject var viewManager = CollectionViewManager(dayOffsets: Self.dayOffsets, cellRegistration: Self.cellRegistration)
     @FetchRequest(entity: Meal.entity(),
                   sortDescriptors: [],
                   predicate: NSPredicate(format: "scheduledDay > %@", argumentArray: [
@@ -100,12 +98,19 @@ struct MealPlanController: UIViewControllerRepresentable {
                   animation: nil)
     private var meals: FetchedResults<Meal>
     
+    static let cellRegistration = UICollectionView.CellRegistration<HostingCollectionViewCell, MealSlotType> { cell, indexPath, slotType in
+        switch slotType {
+        case .filled(let meal):
+            cell.host(rootView: MealRow(meal: meal))
+        case .empty(let space):
+            cell.host(rootView: EmptyMealSlotView(slot: space.slot.title, action: {}))
+        }
+    }
+    
     func makeUIViewController(context: Context) -> UIViewControllerType {
         let collectionView = viewManager.collectionViewController.collectionView!
         let dataSource = viewManager.dataSource
         
-        collectionView.register(HostingCollectionViewCell.self, forCellWithReuseIdentifier: "hostingCell")
-
         collectionView.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = dataSource
         
