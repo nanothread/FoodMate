@@ -31,8 +31,8 @@ class CollectionViewManager: ObservableObject {
             collectionView: collectionViewController.collectionView,
             cellProvider: { collectionView, indexPath, meal in
                 if case .filled(let meal) = meal  {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mealCell", for: indexPath) as! MealPlanCell
-                    cell.configure(withMeal: meal)
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "hostingCell", for: indexPath) as! HostingCollectionViewCell
+                    cell.host(rootView: MealRow(meal: meal))
                     return cell
                 } else {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "hostingCell", for: indexPath) as! HostingCollectionViewCell
@@ -104,7 +104,6 @@ struct MealPlanController: UIViewControllerRepresentable {
         let collectionView = viewManager.collectionViewController.collectionView!
         let dataSource = viewManager.dataSource
         
-        collectionView.register(MealPlanCell.self, forCellWithReuseIdentifier: "mealCell")
         collectionView.register(HostingCollectionViewCell.self, forCellWithReuseIdentifier: "hostingCell")
 
         collectionView.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
@@ -138,38 +137,6 @@ struct MealPlanController: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
         
-    }
-}
-
-class MealPlanCell: UICollectionViewListCell {
-    var hostingController: UIHostingController<MealRow>?
-    
-    func configure(withMeal meal: Meal) {
-        hostingController?.view.removeFromSuperview()
-        
-        print("Configuring meal plan cell with \(meal.name)")
-        let hostingController = UIHostingController(rootView: MealRow(meal: meal))
-        
-        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(hostingController.view)
-        
-        NSLayoutConstraint.activate([
-            hostingController.view.topAnchor.constraint(equalTo: contentView.topAnchor),
-            hostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            hostingController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            hostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            hostingController.view.heightAnchor.constraint(greaterThanOrEqualToConstant: 44)
-        ])
-        
-        self.hostingController = hostingController
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
 
