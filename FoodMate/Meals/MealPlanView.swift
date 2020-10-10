@@ -13,14 +13,21 @@ extension UICollectionViewDiffableDataSource: ObservableObject {}
 extension UICollectionView: ObservableObject {}
 
 class CollectionViewManager: ObservableObject {
+    var dayOffsets: [Int]
+    
+    init(dayOffsets: [Int]) {
+        self.dayOffsets = dayOffsets
+    }
+    
     lazy var collectionViewController: UICollectionViewController = {
-        let config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+        config.headerMode = .supplementary
         let layout = UICollectionViewCompositionalLayout.list(using: config)
         return UICollectionViewController(collectionViewLayout: layout)
     }()
     
-    lazy var dataSource: UICollectionViewDiffableDataSource = {
-        UICollectionViewDiffableDataSource<Date, Meal>(
+    lazy var dataSource: UICollectionViewDiffableDataSource<Date, Meal> = {
+        let dataSource = UICollectionViewDiffableDataSource<Date, Meal>(
             collectionView: collectionViewController.collectionView,
             cellProvider: { collectionView, indexPath, meal in
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MealPlanCell
@@ -28,20 +35,49 @@ class CollectionViewManager: ObservableObject {
                 return cell
             }
         )
+        
+        dataSource.supplementaryViewProvider = { collectionView, elementKind, indexPath in
+            guard elementKind == UICollectionView.elementKindSectionHeader else { return nil }
+            let view = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: "header", for: indexPath) as! UICollectionViewListCell
+            var config = view.defaultContentConfiguration()
+            config.text = self.headerTitle(for: Date().adding(days: self.dayOffsets[indexPath.section]))
+            view.contentConfiguration = config
+            return view
+        }
+        
+        return dataSource
     }()
+    
+    private func headerTitle(for day: Date) -> String {
+        let cal = Calendar.current
+        if cal.isDateInYesterday(day) {
+            return "Yesterday"
+        }
+        if cal.isDateInToday(day) {
+            return "Today"
+        }
+        if cal.isDateInTomorrow(day) {
+            return "Tomorrow"
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE" // e.g "Satuday"
+        return formatter.string(from: day)
+    }
 }
 
 struct MealPlanView: View {
     var body: some View {
         MealPlanController()
-            .background(Color(.systemGroupedBackground).edgesIgnoringSafeArea(.all))
+            .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct MealPlanController: UIViewControllerRepresentable {
     typealias UIViewControllerType = UINavigationController
+    static let dayOffsets = Array(-1 ... 7)
     
-    @StateObject var viewManager = CollectionViewManager()
+    @StateObject var viewManager = CollectionViewManager(dayOffsets: Self.dayOffsets)
     @FetchRequest(entity: Meal.entity(),
                   sortDescriptors: [],
                   predicate: NSPredicate(format: "scheduledDay > %@", argumentArray: [
@@ -55,12 +91,13 @@ struct MealPlanController: UIViewControllerRepresentable {
         let dataSource = viewManager.dataSource
         
         collectionView.register(MealPlanCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = dataSource
         
         var snapshot = NSDiffableDataSourceSnapshot<Date, Meal>()
-        let today = Date()
-        snapshot.appendSections([Date().adding(days: -1), today])
-        snapshot.appendItems(Array(meals), toSection: today)
+        let sections = Self.dayOffsets.map { Date().adding(days: $0) }
+        snapshot.appendSections(sections)
+        snapshot.appendItems(Array(meals), toSection: sections[0])
         dataSource.apply(snapshot)
         
         
