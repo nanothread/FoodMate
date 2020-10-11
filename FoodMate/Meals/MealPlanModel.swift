@@ -35,7 +35,7 @@ class MealPlanModel: NSObject {
     }
     
     func refresh(withMeals meals: Set<Meal>) {
-        guard mealsContainDifferencesToCurrentSchedule(meals) else {
+        guard cellModels.isEmpty || mealsContainDifferencesToCurrentSchedule(meals) else {
              return
         }
         
