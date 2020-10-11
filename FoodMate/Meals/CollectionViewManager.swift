@@ -42,10 +42,10 @@ class CollectionViewManager: NSObject, ObservableObject {
     }
     
     func configure(meals: Set<Meal>, cellRegistration: CellRegistration, deleteMeal: @escaping (Meal) -> Bool, saveChanges: @escaping () -> Void) {
-        model = MealPlanModel(dayOffsets: sections, saveMealChanges: saveChanges)
-        
         collectionViewController = makeCollectionViewController(deleteMeal: deleteMeal)
         let collectionView = collectionViewController.collectionView!
+        
+        model = MealPlanModel(dayOffsets: sections, saveMealChanges: saveChanges, reloadCollectionView: collectionView.reloadData)
         
         // Set up data source
         let dataSource = MealPlanModel.DataSource(

@@ -16,10 +16,12 @@ class MealPlanModel: NSObject {
     var dataSource: DataSource?
     
     var saveMealChanges: () -> Void
+    var reloadCollectionView: () -> Void
     
-    init(dayOffsets: [DayOffset], saveMealChanges: @escaping () -> Void) {
+    init(dayOffsets: [DayOffset], saveMealChanges: @escaping () -> Void, reloadCollectionView: @escaping () -> Void) {
         self.dayOffsets = dayOffsets
         self.saveMealChanges = saveMealChanges
+        self.reloadCollectionView = reloadCollectionView
     }
     
     private func mealsContainDifferencesToCurrentSchedule(_ newMeals: Set<Meal>) -> Bool {
@@ -64,7 +66,7 @@ class MealPlanModel: NSObject {
             snapshot.appendItems(models, toSection: offset)
         }
 
-        dataSource?.apply(snapshot)
+        dataSource?.apply(snapshot, completion: reloadCollectionView)
     }
     
     func cellModel(at indexPath: IndexPath) -> MealSlotModel {

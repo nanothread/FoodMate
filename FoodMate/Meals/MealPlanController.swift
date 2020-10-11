@@ -71,7 +71,7 @@ struct MealPlanController: UIViewControllerRepresentable {
                     indexPath.section == 0 ||
                     meals.contains(where: {
                         $0.scheduledSlot == meal.scheduledSlot &&
-                        Date().adding(days: Self.dayOffsets[indexPath.section] - 1).isInSameDay(as: $0.scheduledDay)
+                        Date().adding(days: Self.dayOffsets[indexPath.section - 1]).isInSameDay(as: $0.scheduledDay)
                     })
                 )
                 
