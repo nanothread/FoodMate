@@ -15,6 +15,8 @@ struct EmptyMealSlotView: View {
         Button(action: action) {
             Label("Add \(slot)", systemImage: "plus")
         }
+        .frame(maxWidth: .infinity, minHeight: 44)
+        .background(Color(.secondarySystemGroupedBackground))
     }
 }
 

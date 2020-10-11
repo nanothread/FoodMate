@@ -81,6 +81,7 @@ struct MealPlanController: UIViewControllerRepresentable {
                     Label("Send \(meal.scheduledSlot.pluralTitle) Back", systemImage: "arrow.down")
                 }
             }
+            .background(Color(.secondarySystemGroupedBackground))
     }
     
     func bringForwardMeals(afterAndIncluding meal: Meal) {
