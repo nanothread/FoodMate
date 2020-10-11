@@ -31,7 +31,7 @@ struct MealPlanController: UIViewControllerRepresentable {
             cellRegistration: CollectionViewManager.CellRegistration { cell, indexPath, slotType in
                 switch slotType {
                 case .filled(let meal):
-                    cell.host(rootView: MealRow(meal: meal))
+                    cell.host(rootView: mealRowView(forMeal: meal, indexPath: indexPath))
                 case .empty(let space):
                     cell.host(rootView: EmptyMealSlotView(slot: space.slot.title, action: {
                         creatingMealSpace = space
@@ -39,13 +39,7 @@ struct MealPlanController: UIViewControllerRepresentable {
                 }
             },
             deleteMeal: deleteMeal,
-            saveChanges: {
-                do {
-                    try self.context.save()
-                } catch {
-                    Logger.coreData.error("MealPlanController failed to save context: \(error.localizedDescription)")
-                }
-            }
+            saveChanges: { saveContext() }
         )
         
         let navigationController = UINavigationController(rootViewController: viewManager.collectionViewController)
@@ -66,6 +60,55 @@ struct MealPlanController: UIViewControllerRepresentable {
         viewManager.refresh(withMeals: Set(meals))
     }
     
+    func mealRowView(forMeal meal: Meal, indexPath: IndexPath) -> some View {
+        MealRow(meal: meal)
+            .contextMenu {
+                Button {
+                    bringForwardMeals(afterAndIncluding: meal)
+                } label: {
+                    Label("Bring \(meal.scheduledSlot.pluralTitle) Forward", systemImage: "arrow.up")
+                }.disabled(
+                    indexPath.section == 0 ||
+                    meals.contains(where: {
+                        $0.scheduledSlot == meal.scheduledSlot &&
+                        Date().adding(days: Self.dayOffsets[indexPath.section] - 1).isInSameDay(as: $0.scheduledDay)
+                    })
+                )
+                
+                Button {
+                    sendBackMeals(afterAndIncluding: meal)
+                } label: {
+                    Label("Send \(meal.scheduledSlot.pluralTitle) Back", systemImage: "arrow.down")
+                }
+            }
+    }
+    
+    func bringForwardMeals(afterAndIncluding meal: Meal) {
+        meals
+            .filter {
+                $0.scheduledSlot == meal.scheduledSlot &&
+                Calendar.current.compare($0.scheduledDay, to: meal.scheduledDay, toGranularity: .day) != .orderedAscending
+            }
+            .forEach { meal in
+                meal.scheduledDay = meal.scheduledDay.adding(days: -1)
+            }
+        
+        saveContext(actionDescription: "bring meals forward")
+    }
+    
+    func sendBackMeals(afterAndIncluding meal: Meal) {
+        meals
+            .filter {
+                $0.scheduledSlot == meal.scheduledSlot &&
+                Calendar.current.compare($0.scheduledDay, to: meal.scheduledDay, toGranularity: .day) != .orderedAscending
+            }
+            .forEach { meal in
+                meal.scheduledDay = meal.scheduledDay.adding(days: 1)
+            }
+        
+        saveContext(actionDescription: "send meals back")
+    }
+    
     func deleteMeal(_ meal: Meal) -> Bool {
         do {
             context.delete(meal)
@@ -75,6 +118,14 @@ struct MealPlanController: UIViewControllerRepresentable {
         catch {
             Logger.coreData.error("MealPlanController failed to delete meal: \(error.localizedDescription)")
             return false
+        }
+    }
+    
+    func saveContext(actionDescription: String = "save context") {
+        do {
+            try self.context.save()
+        } catch {
+            Logger.coreData.error("MealPlanController failed to \(actionDescription) : \(error.localizedDescription)")
         }
     }
 }

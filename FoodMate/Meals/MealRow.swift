@@ -54,6 +54,11 @@ struct MealRow: View {
             .imageScale(.small)
             .font(.callout)
         }
+        .frame(minHeight: 44)
         .padding(.horizontal)
+        .background(
+            Color(.secondarySystemGroupedBackground)
+                .cornerRadius(10)
+        )
     }
 }

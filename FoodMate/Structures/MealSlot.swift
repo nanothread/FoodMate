@@ -11,7 +11,19 @@ public enum MealSlot: String, CaseIterable {
     case lunch
     case dinner
     
-    var title: String { rawValue.firstUppercased }
+    var title: String {
+        switch self {
+        case .lunch: return NSLocalizedString("Lunch", comment: "Meal eaten at noon.")
+        case .dinner: return NSLocalizedString("Dinner", comment: "Meal eaten in the evening.")
+        }
+    }
+    
+    var pluralTitle: String {
+        switch self {
+        case .lunch: return NSLocalizedString("Lunches", comment: "Meals eaten at noon.")
+        case .dinner: return NSLocalizedString("Dinners", comment: "Meals eaten in the evening.")
+        }
+    }
 }
 
 extension MealSlot: Identifiable {
