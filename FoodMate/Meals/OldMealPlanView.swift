@@ -84,26 +84,6 @@ class TableViewDragDelegate: NSObject, UITableViewDragDelegate, ObservableObject
     
 }
 
-class CollectionViewDragDelegate: NSObject, UICollectionViewDragDelegate {
-    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        [.init(itemProvider: NSItemProvider(object: "sdfsdfsdf" as NSString))]
-    }
-}
-
-class CollectionViewDropDelegate: NSObject, UICollectionViewDropDelegate {
-    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
-        true
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-        .init(operation: .move, intent: .insertIntoDestinationIndexPath)
-    }
-}
-
 struct OldMealPlanView: View {
     static let earliestDateOffset = -1
     @Environment(\.managedObjectContext) private var context

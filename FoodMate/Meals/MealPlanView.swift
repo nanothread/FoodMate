@@ -13,23 +13,18 @@ extension UICollectionViewDiffableDataSource: ObservableObject {}
 extension UICollectionView: ObservableObject {}
 typealias DataSource = UICollectionViewDiffableDataSource<DayOffset, MealSlotType>
 
-//struct MealPlanDay: Hashable {
-//    var date: Date
-//
-//    init(offsetFromToday: Int) {
-//        date = Date().adding(days: offsetFromToday)
-//    }
-//}
-
 typealias DayOffset = Int
 
-class MealPlanModel {
+class MealPlanModel: NSObject, UICollectionViewDragDelegate, UICollectionViewDropDelegate {
     private var cellModels = [DayOffset: [MealSlotType]]()
     var dayOffsets: [DayOffset]
     var dataSource: DataSource?
     
-    init(dayOffsets: [DayOffset]) {
+    var saveMealChanges: () -> Void
+    
+    init(dayOffsets: [DayOffset], saveMealChanges: @escaping () -> Void) {
         self.dayOffsets = dayOffsets
+        self.saveMealChanges = saveMealChanges
     }
     
     func refresh(withMeals meals: Set<Meal>) {
@@ -62,16 +57,26 @@ class MealPlanModel {
         let section = cellModels.keys.sorted()[indexPath.section]
         return cellModels[section]![indexPath.row] // TODO safe assertions
     }
+    
+    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        guard case .filled(let meal) = cellModel(at: indexPath) else { return [] }
+        return [UIDragItem(itemProvider: NSItemProvider(object: meal.objectID.uriRepresentation().absoluteString as NSString))]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+        .init(operation: .move, intent: .insertIntoDestinationIndexPath)
+    }
 }
 
 class CollectionViewManager: ObservableObject {
     var sections = [DayOffset]()
-    lazy private var model = MealPlanModel(dayOffsets: sections)
+    private var model: MealPlanModel!
 
     private(set) var collectionViewController: UICollectionViewController!
-    
-    private var dragDelegate = CollectionViewDragDelegate()
-    private var dropDelegate = CollectionViewDropDelegate()
     
     internal init(dayOffsets: [Int]) {
         sections = dayOffsets
@@ -97,7 +102,9 @@ class CollectionViewManager: ObservableObject {
         return UICollectionViewController(collectionViewLayout: layout)
     }
     
-    fileprivate func configure(meals: Set<Meal>, cellRegistration: CellRegistration, deleteMeal: @escaping (Meal) -> Bool) {
+    fileprivate func configure(meals: Set<Meal>, cellRegistration: CellRegistration, deleteMeal: @escaping (Meal) -> Bool, saveChanges: @escaping () -> Void) {
+        model = MealPlanModel(dayOffsets: sections, saveMealChanges: saveChanges)
+        
         collectionViewController = makeCollectionViewController(deleteMeal: deleteMeal)
         let collectionView = collectionViewController.collectionView!
         
@@ -121,8 +128,8 @@ class CollectionViewManager: ObservableObject {
         collectionView.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = dataSource
         collectionView.dragInteractionEnabled = true
-        collectionView.dragDelegate = dragDelegate
-        collectionView.dropDelegate = dropDelegate
+        collectionView.dragDelegate = model
+        collectionView.dropDelegate = model
         model.dataSource = dataSource
         
         refresh(withMeals: meals)
@@ -152,6 +159,7 @@ class CollectionViewManager: ObservableObject {
 
 struct MealPlanView: View {
     @State private var creatingMealSpace: MealSpace?
+    @Environment(\.managedObjectContext) private var context
     
     var body: some View {
         MealPlanController(creatingMealSpace: $creatingMealSpace)
@@ -201,7 +209,14 @@ struct MealPlanController: UIViewControllerRepresentable {
                     }))
                 }
             },
-            deleteMeal: deleteMeal
+            deleteMeal: deleteMeal,
+            saveChanges: {
+                do {
+                    try self.context.save()
+                } catch {
+                    Logger.coreData.error("MealPlanController failed to save context: \(error.localizedDescription)")
+                }
+            }
         )
         
         let navigationController = UINavigationController(rootViewController: viewManager.collectionViewController)
