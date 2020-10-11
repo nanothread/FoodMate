@@ -7,13 +7,15 @@
 
 import UIKit
 
-class CollectionViewManager: ObservableObject {
+class CollectionViewManager: NSObject, ObservableObject {
     typealias CellRegistration = UICollectionView.CellRegistration<HostingCollectionViewCell, MealSlotModel>
 
     var sections = [DayOffset]()
     private var model: MealPlanModel!
 
     private(set) var collectionViewController: UICollectionViewController!
+    
+    var selectMeal: ((Meal) -> Void)?
     
     internal init(dayOffsets: [Int]) {
         sections = dayOffsets
@@ -64,6 +66,7 @@ class CollectionViewManager: ObservableObject {
         
         collectionView.register(UICollectionViewListCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.dataSource = dataSource
+        collectionView.delegate = self
         collectionView.dragInteractionEnabled = true
         collectionView.dragDelegate = model
         collectionView.dropDelegate = model
@@ -91,5 +94,12 @@ class CollectionViewManager: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE" // e.g "Satuday"
         return formatter.string(from: day)
+    }
+}
+
+extension CollectionViewManager: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard case .filled(let meal) = model.cellModel(at: indexPath) else { return }
+        selectMeal?(meal)
     }
 }

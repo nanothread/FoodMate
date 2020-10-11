@@ -47,6 +47,8 @@ struct MealRow: View {
                         Image(systemName: location.systemImage)
                     }
                 }
+                
+                Image(systemName: "chevron.right")
             }
             .foregroundColor(.gray)
             .imageScale(.small)

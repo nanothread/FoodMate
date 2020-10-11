@@ -51,6 +51,13 @@ struct MealPlanController: UIViewControllerRepresentable {
         let navigationController = UINavigationController(rootViewController: viewManager.collectionViewController)
         viewManager.collectionViewController.title = "Meal Plan"
         navigationController.navigationBar.prefersLargeTitles = true
+        
+        viewManager.selectMeal = { meal in
+            let controller = UIHostingController(rootView: MealDetailView(meal: meal))
+            controller.title = meal.name // Fixes SwiftUI Nav Bar title glitch
+            navigationController.pushViewController(controller, animated: true)
+        }
+        
         return navigationController
     }
     
