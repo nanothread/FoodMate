@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E442DB1253347E900935714 /* MealPlanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB0253347E900935714 /* MealPlanModel.swift */; };
+		3E442DB42533485500935714 /* CollectionViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB32533485500935714 /* CollectionViewManager.swift */; };
+		3E442DB7253348CF00935714 /* MealSlotModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB6253348CF00935714 /* MealSlotModel.swift */; };
+		3E442DBA2533491F00935714 /* HostingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB92533491F00935714 /* HostingCollectionViewCell.swift */; };
+		3E442DBD253349DE00935714 /* MealPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DBC253349DE00935714 /* MealPlanController.swift */; };
+		3E442DC025334A1800935714 /* GlobalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DBF25334A1800935714 /* GlobalTypes.swift */; };
 		3E4E52502530F13800159DB6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 3E4E524F2530F13800159DB6 /* Introspect */; };
 		3E52114C252893E800FD62BF /* FoodMateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E52114B252893E800FD62BF /* FoodMateApp.swift */; };
 		3E52114E252893E800FD62BF /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E52114D252893E800FD62BF /* IngredientsView.swift */; };
@@ -25,7 +31,6 @@
 		3E52118125289CFC00FD62BF /* NewIngredientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E52118025289CFC00FD62BF /* NewIngredientView.swift */; };
 		3E5211872528A8B800FD62BF /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5211862528A8B800FD62BF /* Logging.swift */; };
 		3E961A6C2528AD22005E660F /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A6B2528AD22005E660F /* ContainerView.swift */; };
-		3E961A702528AD69005E660F /* OldMealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A6F2528AD69005E660F /* OldMealPlanView.swift */; };
 		3E961A742528AE0A005E660F /* ShoppingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A732528AE0A005E660F /* ShoppingListView.swift */; };
 		3E961A792528AF81005E660F /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A782528AF81005E660F /* Date+Extensions.swift */; };
 		3E961A7E2528B0CF005E660F /* MealRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961A7D2528B0CF005E660F /* MealRow.swift */; };
@@ -48,6 +53,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E442DB0253347E900935714 /* MealPlanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanModel.swift; sourceTree = "<group>"; };
+		3E442DB32533485500935714 /* CollectionViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManager.swift; sourceTree = "<group>"; };
+		3E442DB6253348CF00935714 /* MealSlotModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSlotModel.swift; sourceTree = "<group>"; };
+		3E442DB92533491F00935714 /* HostingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingCollectionViewCell.swift; sourceTree = "<group>"; };
+		3E442DBC253349DE00935714 /* MealPlanController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanController.swift; sourceTree = "<group>"; };
+		3E442DBF25334A1800935714 /* GlobalTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalTypes.swift; sourceTree = "<group>"; };
 		3E521148252893E800FD62BF /* FoodMate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodMate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E52114B252893E800FD62BF /* FoodMateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMateApp.swift; sourceTree = "<group>"; };
 		3E52114D252893E800FD62BF /* IngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
@@ -67,7 +78,6 @@
 		3E52118025289CFC00FD62BF /* NewIngredientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewIngredientView.swift; sourceTree = "<group>"; };
 		3E5211862528A8B800FD62BF /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		3E961A6B2528AD22005E660F /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
-		3E961A6F2528AD69005E660F /* OldMealPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldMealPlanView.swift; sourceTree = "<group>"; };
 		3E961A732528AE0A005E660F /* ShoppingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListView.swift; sourceTree = "<group>"; };
 		3E961A782528AF81005E660F /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		3E961A7D2528B0CF005E660F /* MealRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealRow.swift; sourceTree = "<group>"; };
@@ -131,6 +141,7 @@
 				3E961A772528AF74005E660F /* Extensions */,
 				3E52114F252893E900FD62BF /* Assets.xcassets */,
 				3E521154252893E900FD62BF /* Persistence.swift */,
+				3E442DBF25334A1800935714 /* GlobalTypes.swift */,
 				3E521159252893E900FD62BF /* Info.plist */,
 				3E521156252893E900FD62BF /* FoodMate.xcdatamodeld */,
 				3E521151252893E900FD62BF /* Preview Content */,
@@ -187,12 +198,16 @@
 		3E5211892528ACAE00FD62BF /* Meals */ = {
 			isa = PBXGroup;
 			children = (
-				3E961A6F2528AD69005E660F /* OldMealPlanView.swift */,
+				3EF089B02531B4A100B05208 /* MealPlanView.swift */,
+				3E442DBC253349DE00935714 /* MealPlanController.swift */,
+				3E442DB0253347E900935714 /* MealPlanModel.swift */,
+				3E442DB32533485500935714 /* CollectionViewManager.swift */,
+				3E442DB6253348CF00935714 /* MealSlotModel.swift */,
+				3E442DB92533491F00935714 /* HostingCollectionViewCell.swift */,
 				3E961A7D2528B0CF005E660F /* MealRow.swift */,
 				3E961A802528B1B0005E660F /* EmptyMealSlotView.swift */,
 				3E961A8D2528BC7F005E660F /* NewMealView.swift */,
 				3EFF38C8252BA963006C64F7 /* MealDetailView.swift */,
-				3EF089B02531B4A100B05208 /* MealPlanView.swift */,
 			);
 			path = Meals;
 			sourceTree = "<group>";
@@ -309,7 +324,7 @@
 				3E961A952528C08A005E660F /* SearchProvider.swift in Sources */,
 				3E521158252893E900FD62BF /* FoodMate.xcdatamodeld in Sources */,
 				3E52116D25289AC700FD62BF /* AbstractIngredient+CoreDataClass.swift in Sources */,
-				3E961A702528AD69005E660F /* OldMealPlanView.swift in Sources */,
+				3E442DB42533485500935714 /* CollectionViewManager.swift in Sources */,
 				3E961A992528EF4F005E660F /* String+Extensions.swift in Sources */,
 				3E961A812528B1B0005E660F /* EmptyMealSlotView.swift in Sources */,
 				3E52117925289BCC00FD62BF /* Location.swift in Sources */,
@@ -319,17 +334,22 @@
 				3E521155252893E900FD62BF /* Persistence.swift in Sources */,
 				3EAD3CC0252D18B5005A1F3A /* NotificationManager.swift in Sources */,
 				3E961A8E2528BC7F005E660F /* NewMealView.swift in Sources */,
+				3E442DB7253348CF00935714 /* MealSlotModel.swift in Sources */,
+				3E442DBA2533491F00935714 /* HostingCollectionViewCell.swift in Sources */,
+				3E442DBD253349DE00935714 /* MealPlanController.swift in Sources */,
 				3E961A842528B9BB005E660F /* MealSlot.swift in Sources */,
 				3E52114E252893E800FD62BF /* IngredientsView.swift in Sources */,
 				3E961AA82529E019005E660F /* CompletedShoppingItemView.swift in Sources */,
 				3E961A9F2529113B005E660F /* ShoppingItem+CoreDataProperties.swift in Sources */,
 				3E961A792528AF81005E660F /* Date+Extensions.swift in Sources */,
+				3E442DC025334A1800935714 /* GlobalTypes.swift in Sources */,
 				3EAD3CC3252E58FA005A1F3A /* CancellableStore.swift in Sources */,
 				3E52114C252893E800FD62BF /* FoodMateApp.swift in Sources */,
 				3E961A742528AE0A005E660F /* ShoppingListView.swift in Sources */,
 				3E52118125289CFC00FD62BF /* NewIngredientView.swift in Sources */,
 				3E52116F25289AC700FD62BF /* Ingredient+CoreDataClass.swift in Sources */,
 				3E961AA225291176005E660F /* ShoppingItemStatus.swift in Sources */,
+				3E442DB1253347E900935714 /* MealPlanModel.swift in Sources */,
 				3E961A7E2528B0CF005E660F /* MealRow.swift in Sources */,
 				3E961A912528BEB9005E660F /* MealSpace.swift in Sources */,
 				3EFF38C9252BA963006C64F7 /* MealDetailView.swift in Sources */,
