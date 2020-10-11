@@ -64,7 +64,30 @@ class MealPlanModel: NSObject, UICollectionViewDragDelegate, UICollectionViewDro
     }
     
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+        guard let destination = coordinator.destinationIndexPath else {
+            Logger.dragDrop.debug("Drop coordinator destinationIndexPath is nil")
+            return
+        }
         
+        guard let source = coordinator.items.first?.sourceIndexPath,
+              case .filled(let selectedMeal) = cellModel(at: source) else {
+            Logger.dragDrop.debug("Drop coordinator could not locate source meal")
+            return
+        }
+        
+        switch cellModel(at: destination) {
+        case .filled(let destinationMeal):
+            let sourceSpace = MealSpace(day: selectedMeal.scheduledDay, slot: selectedMeal.scheduledSlot)
+            selectedMeal.scheduledDay = destinationMeal.scheduledDay
+            selectedMeal.scheduledSlot = destinationMeal.scheduledSlot
+            destinationMeal.scheduledDay = sourceSpace.day
+            destinationMeal.scheduledSlot = sourceSpace.slot
+        case .empty(let space):
+            selectedMeal.scheduledDay = space.day
+            selectedMeal.scheduledSlot = space.slot
+        }
+        
+        saveMealChanges()
     }
     
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
