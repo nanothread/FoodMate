@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,7 +13,6 @@
 		3E442DBA2533491F00935714 /* HostingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB92533491F00935714 /* HostingCollectionViewCell.swift */; };
 		3E442DBD253349DE00935714 /* MealPlanController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DBC253349DE00935714 /* MealPlanController.swift */; };
 		3E442DC025334A1800935714 /* GlobalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DBF25334A1800935714 /* GlobalTypes.swift */; };
-		3E4E52502530F13800159DB6 /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = 3E4E524F2530F13800159DB6 /* Introspect */; };
 		3E52114C252893E800FD62BF /* FoodMateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E52114B252893E800FD62BF /* FoodMateApp.swift */; };
 		3E52114E252893E800FD62BF /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E52114D252893E800FD62BF /* IngredientsView.swift */; };
 		3E521150252893E900FD62BF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E52114F252893E900FD62BF /* Assets.xcassets */; };
@@ -104,7 +103,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E4E52502530F13800159DB6 /* Introspect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,7 +256,6 @@
 			);
 			name = FoodMate;
 			packageProductDependencies = (
-				3E4E524F2530F13800159DB6 /* Introspect */,
 			);
 			productName = FoodMate;
 			productReference = 3E521148252893E800FD62BF /* FoodMate.app */;
@@ -288,7 +285,6 @@
 			);
 			mainGroup = 3E52113F252893E800FD62BF;
 			packageReferences = (
-				3E4E524E2530F13800159DB6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = 3E521149252893E800FD62BF /* Products */;
 			projectDirPath = "";
@@ -546,25 +542,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		3E4E524E2530F13800159DB6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.1.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		3E4E524F2530F13800159DB6 /* Introspect */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 3E4E524E2530F13800159DB6 /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
-			productName = Introspect;
-		};
-/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		3E521156252893E900FD62BF /* FoodMate.xcdatamodeld */ = {
