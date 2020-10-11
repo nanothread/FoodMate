@@ -22,12 +22,33 @@ class MealPlanModel: NSObject, UICollectionViewDragDelegate, UICollectionViewDro
     
     var saveMealChanges: () -> Void
     
+    private var currentSchedule = [Meal: MealSpace]()
+    
     init(dayOffsets: [DayOffset], saveMealChanges: @escaping () -> Void) {
         self.dayOffsets = dayOffsets
         self.saveMealChanges = saveMealChanges
     }
     
+    private func mealsContainDifferencesToCurrentSchedule(_ newMeals: Set<Meal>) -> Bool {
+        guard Set(currentSchedule.keys) == newMeals else { return true }
+        
+        for meal in newMeals {
+            guard let oldSpace = currentSchedule[meal] else { return true }
+            guard oldSpace.day.isInSameDay(as: meal.scheduledDay) else { return true }
+            guard oldSpace.slot == meal.scheduledSlot else { return true }
+        }
+        
+        return false
+    }
+    
     func refresh(withMeals meals: Set<Meal>) {
+        guard mealsContainDifferencesToCurrentSchedule(meals) else {
+             return
+        }
+        
+        currentSchedule = meals.reduce(into: [:]) { $0[$1] = MealSpace(day: $1.scheduledDay, slot: $1.scheduledSlot) }
+        Logger.general.debug("> Actually updating meal plan view")
+        
         for offset in dayOffsets {
             let day = Date().adding(days: offset)
             let eligibleMeals = meals.filter { $0.scheduledDay.isInSameDay(as: day) }
@@ -249,7 +270,7 @@ struct MealPlanController: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        print("Updating meal plan view!", meals.map(\.name))
+        Logger.general.debug("Trying to update meal plan view: \(meals.map(\.name))")
         viewManager.refresh(withMeals: Set(meals))
     }
     

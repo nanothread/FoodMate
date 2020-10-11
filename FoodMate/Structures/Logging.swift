@@ -14,4 +14,5 @@ enum Logger {
     static let coreData = os.Logger(subsystem: subsystem, category: "coreData")
     static let notifications = os.Logger(subsystem: subsystem, category: "notifications")
     static let dragDrop = os.Logger(subsystem: subsystem, category: "dragDrop")
+    static let general = os.Logger(subsystem: subsystem, category: "general")
 }
