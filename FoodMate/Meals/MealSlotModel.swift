@@ -7,7 +7,9 @@
 
 import Foundation
 
-// Can't just be optional because we need each model instance to be identifiable
+/// Contains data for each row of the meal planner, including empty rows.
+///
+/// This can't just be an `Optional<Meal>` because we need empty rows to be identifiable.
 enum MealSlotModel: Hashable, Equatable {
     case filled(Meal)
     case empty(MealSpace)

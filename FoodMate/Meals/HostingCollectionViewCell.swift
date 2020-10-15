@@ -8,9 +8,11 @@
 import UIKit
 import SwiftUI
 
+/// A collection view cell that hosts a SwiftUI view.
 class HostingCollectionViewCell: UICollectionViewCell {
     private var hostingView: UIView?
     
+    /// Displays a SwiftUI View.
     func host<Content: View>(rootView: Content) {
         hostingView?.removeFromSuperview()
         

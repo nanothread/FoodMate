@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Displays an empty slot in the meal planner.
 struct EmptyMealSlotView: View {
     var slot: String
     var action: () -> Void

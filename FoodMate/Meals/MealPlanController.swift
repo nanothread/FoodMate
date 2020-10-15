@@ -8,17 +8,22 @@
 import SwiftUI
 import UIKit
 
+/// Configures the meal planner and performs planner-related actions on the data model.
 struct MealPlanController: UIViewControllerRepresentable {
     typealias UIViewControllerType = UINavigationController
     static let dayOffsets = Array(-1 ... 7)
     
+    /// When non-nil, the user will be adding a meal into this space.
     @Binding var creatingMealSpace: MealSpace?
     
+    /// Maintains the meal planner collection view.
     @StateObject var viewManager = CollectionViewManager(dayOffsets: Self.dayOffsets)
+    
+    /// All the meals that have been scheduled inside the planner's date range.
     @FetchRequest(entity: Meal.entity(),
                   sortDescriptors: [],
                   predicate: NSPredicate(format: "scheduledDay > %@", argumentArray: [
-                    Date().adding(days: -1)
+                    Date().adding(days: -1) // TODO: Refine this to start of day to include all meals on day -1.
                   ]),
                   animation: nil)
     private var meals: FetchedResults<Meal>
@@ -60,6 +65,7 @@ struct MealPlanController: UIViewControllerRepresentable {
         viewManager.refresh(withMeals: Set(meals))
     }
     
+    /// A view in which to display a scheduled meal.
     func mealRowView(forMeal meal: Meal, indexPath: IndexPath) -> some View {
         MealRow(meal: meal)
             .contextMenu {
@@ -84,6 +90,9 @@ struct MealPlanController: UIViewControllerRepresentable {
             .background(Color(.secondarySystemGroupedBackground))
     }
     
+    /// Brings `meal` and subsequent meals in the same slot forwards by a day.
+    ///
+    /// - TODO: Ensure that applying this function will not cause two meals to have the same `MealSpace`.
     func bringForwardMeals(afterAndIncluding meal: Meal) {
         meals
             .filter {
@@ -97,6 +106,7 @@ struct MealPlanController: UIViewControllerRepresentable {
         saveContext(actionDescription: "bring meals forward")
     }
     
+    /// Sends `meal` and subsequent meals in the same slot back by a day. This creates in the space currently holding `meal.`
     func sendBackMeals(afterAndIncluding meal: Meal) {
         meals
             .filter {

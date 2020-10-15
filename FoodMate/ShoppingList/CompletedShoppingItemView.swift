@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Displays a checked shopping item.
 struct CompletedShoppingItemView: View {
     var name: String
     @Binding var date: Date

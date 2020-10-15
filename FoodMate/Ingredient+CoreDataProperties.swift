@@ -16,11 +16,19 @@ extension Ingredient {
         return NSFetchRequest<Ingredient>(entityName: "Ingredient")
     }
 
+    /// The name the user has given this ingredient. Should always be (but is not guaranteed to be)
+    /// equal to `parent.name`.
     @NSManaged public var name: String
+    /// The date this ingredient is expected to expire, to the nearest day.
     @NSManaged public var expiryDate: Date?
+    /// The meals in the planner that use this ingredient.
     @NSManaged public var meals: Set<Meal>
+    /// The ingredient that this `Ingredient` is a concrete instance of. For example, the parent may be
+    /// 'Eggs' (the idea of eggs), and this `Ingredient` may be one of its two children, each representing
+    /// a box of eggs in the kitchen.
     @NSManaged public var parent: AbstractIngredient
 
+    /// The location in the kitchen where this ingredient resides.
     public var location: Location {
         get {
             return Location(rawValue: properlyGetPrimitiveValue(forKey: "location") as! Int)!

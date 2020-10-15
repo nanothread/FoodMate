@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Displays the shopping list and handles new item creation.
 struct ShoppingListView: View {
     @FetchRequest(entity: ShoppingItem.entity(),
                   sortDescriptors: [NSSortDescriptor(key: "dateCreated", ascending: true)],

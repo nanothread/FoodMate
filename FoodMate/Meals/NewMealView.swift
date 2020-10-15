@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 
+/// An interface for the user to create and add ingredients to a new meal.
 struct NewMealView: View {
     var space: MealSpace
     @EnvironmentObject private var searchProvider: SearchProvider

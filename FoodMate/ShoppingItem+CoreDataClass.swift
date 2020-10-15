@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 @objc(ShoppingItem)
+/// Represents an item in the shopping list.
 public class ShoppingItem: NSManagedObject {
 
 }

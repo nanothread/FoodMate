@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 
+/// The root of the Meal Plan view tree.
 struct MealPlanView: View {
     @State private var creatingMealSpace: MealSpace?
     @Environment(\.managedObjectContext) private var context

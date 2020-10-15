@@ -8,6 +8,7 @@
 import SwiftUI
 import os
 
+/// Provides an interface for creation and sorting of multiple new ingredients in the same (user) context.
 struct NewIngredientView: View {
     @State private var name: String = ""
     @State private var expiryDate: Date = Date()

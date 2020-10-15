@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 
 @objc(Ingredient)
+/// Represents an actual ingredient in the kitchen, always tied to an instance of `AbstractIngredient` (which
+/// represents the idea of an ingredient in general).
 public class Ingredient: NSManagedObject {
 
 }

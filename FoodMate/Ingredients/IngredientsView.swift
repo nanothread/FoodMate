@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreData
 
+/// Displays existing ingredients sorted into `Location`s
 struct IngredientsView: View {
     @Environment(\.managedObjectContext) private var context
 

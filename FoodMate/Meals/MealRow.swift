@@ -7,7 +7,9 @@
 
 import SwiftUI
 
+/// Displays a scheduled meal in the planner.
 struct MealRow: View {
+    /// A location in FoodMate where an ingredient may be found outside of a meal.
     private enum IngredientLocation: String, CaseIterable, Identifiable {
         case shoppingList, kitchen
         

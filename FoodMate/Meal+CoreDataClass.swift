@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 @objc(Meal)
+/// Represents a meal in the meal planner, with a name and list of ingredients.
 public class Meal: NSManagedObject {
 
 }

@@ -7,10 +7,12 @@
 
 import Foundation
 
+/// A space in the day where a meal can be eaten.
 public enum MealSlot: String, CaseIterable {
     case lunch
     case dinner
     
+    /// The user-facing title of this slot.
     var title: String {
         switch self {
         case .lunch: return NSLocalizedString("Lunch", comment: "Meal eaten at noon.")
@@ -18,6 +20,7 @@ public enum MealSlot: String, CaseIterable {
         }
     }
     
+    /// A pluralised version of `title`.
     var pluralTitle: String {
         switch self {
         case .lunch: return NSLocalizedString("Lunches", comment: "Meals eaten at noon.")
@@ -31,6 +34,7 @@ extension MealSlot: Identifiable {
 }
 
 extension MealSlot: Comparable {
+    /// Orders slots chronologically (i.e. lunch before dinner).
     public static func < (lhs: MealSlot, rhs: MealSlot) -> Bool {
         return lhs == .lunch && rhs == .dinner
     }

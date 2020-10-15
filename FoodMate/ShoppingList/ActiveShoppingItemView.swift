@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Displays an unchecked shopping item.
 struct ActiveShoppingItemView: View {
     var name: String
     @Binding var date: Date

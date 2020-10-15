@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Creates and configures the meal planner collection view.
 class CollectionViewManager: NSObject, ObservableObject {
     typealias CellRegistration = UICollectionView.CellRegistration<HostingCollectionViewCell, MealSlotModel>
 
@@ -21,6 +22,7 @@ class CollectionViewManager: NSObject, ObservableObject {
         sections = dayOffsets
     }
     
+    /// Creates the meal planner view controller.
     private func makeCollectionViewController(deleteMeal: @escaping (Meal) -> Bool) -> UICollectionViewController {
         var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         config.headerMode = .supplementary
@@ -41,13 +43,19 @@ class CollectionViewManager: NSObject, ObservableObject {
         return UICollectionViewController(collectionViewLayout: layout)
     }
     
-    func configure(meals: Set<Meal>, cellRegistration: CellRegistration, deleteMeal: @escaping (Meal) -> Bool, saveChanges: @escaping () -> Void) {
+    /// Creates and sets up the meal planner. Should only be called once, when the view loads.
+    func configure(
+        meals: Set<Meal>,
+        cellRegistration: CellRegistration,
+        deleteMeal: @escaping (Meal) -> Bool,
+        saveChanges: @escaping () -> Void
+    ) {
         collectionViewController = makeCollectionViewController(deleteMeal: deleteMeal)
         let collectionView = collectionViewController.collectionView!
         
         model = MealPlanModel(dayOffsets: sections, saveMealChanges: saveChanges, reloadCollectionView: collectionView.reloadData)
         
-        // Set up data source
+        // Collection view data source
         let dataSource = MealPlanModel.DataSource(
             collectionView: collectionViewController.collectionView,
             cellProvider: { collectionView, indexPath, meal in
@@ -55,6 +63,7 @@ class CollectionViewManager: NSObject, ObservableObject {
             }
         )
         
+        // List headers
         dataSource.supplementaryViewProvider = { collectionView, elementKind, indexPath in
             guard elementKind == UICollectionView.elementKindSectionHeader else { return nil }
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: "header", for: indexPath) as! UICollectionViewListCell
@@ -75,10 +84,12 @@ class CollectionViewManager: NSObject, ObservableObject {
         refresh(withMeals: meals)
     }
     
+    /// Refresh the collection view with new data.
     func refresh(withMeals meals: Set<Meal>) {
         model.refresh(withMeals: meals)
     }
     
+    /// Returns appropriate user-facing titles for the given dates.
     private func headerTitle(for day: Date) -> String {
         let cal = Calendar.current
         if cal.isDateInYesterday(day) {

@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Manages the data source of the meal planner collection view and the drag-and-drop reodering logic.
 class MealPlanModel: NSObject {
     typealias DataSource = UICollectionViewDiffableDataSource<DayOffset, MealSlotModel>
 
@@ -24,6 +25,9 @@ class MealPlanModel: NSObject {
         self.reloadCollectionView = reloadCollectionView
     }
     
+    /// Checks whether a new set of meals contains any differences to the current set of meals that would require an update of the collection view---i.e. all meals are the same and in the same meal space.
+    ///
+    /// Prevents uneccesary updates to the collection view that (I think) cause black flickering.
     private func mealsContainDifferencesToCurrentSchedule(_ newMeals: Set<Meal>) -> Bool {
         guard Set(currentSchedule.keys) == newMeals else { return true }
         
@@ -37,6 +41,7 @@ class MealPlanModel: NSObject {
     }
     
     func refresh(withMeals meals: Set<Meal>) {
+        // Prevent unneccesary updates.
         guard cellModels.isEmpty || mealsContainDifferencesToCurrentSchedule(meals) else {
              return
         }
@@ -44,6 +49,7 @@ class MealPlanModel: NSObject {
         currentSchedule = meals.reduce(into: [:]) { $0[$1] = MealSpace(day: $1.scheduledDay, slot: $1.scheduledSlot) }
         Logger.general.debug("> Actually updating meal plan view")
         
+        // Construct model for every row in the planner.
         for offset in dayOffsets {
             let day = Date().adding(days: offset)
             let eligibleMeals = meals.filter { $0.scheduledDay.isInSameDay(as: day) }
@@ -58,6 +64,7 @@ class MealPlanModel: NSObject {
             cellModels[offset] = models
         }
         
+        // Apply model to collection view.
         var snapshot = NSDiffableDataSourceSnapshot<DayOffset, MealSlotModel>()
         snapshot.appendSections(dayOffsets)
         
@@ -69,9 +76,12 @@ class MealPlanModel: NSObject {
         dataSource?.apply(snapshot, completion: reloadCollectionView)
     }
     
+    /// Returns the cell model currently at `indexPath`.
+    ///
+    /// - TODO: Add preconditions for index logic.
     func cellModel(at indexPath: IndexPath) -> MealSlotModel {
         let section = cellModels.keys.sorted()[indexPath.section]
-        return cellModels[section]![indexPath.row] // TODO safe assertions
+        return cellModels[section]![indexPath.row]
     }
 }
 
@@ -96,13 +106,13 @@ extension MealPlanModel: UICollectionViewDropDelegate {
         }
         
         switch cellModel(at: destination) {
-        case .filled(let destinationMeal):
+        case .filled(let destinationMeal): // Swap meals
             let sourceSpace = MealSpace(day: selectedMeal.scheduledDay, slot: selectedMeal.scheduledSlot)
             selectedMeal.scheduledDay = destinationMeal.scheduledDay
             selectedMeal.scheduledSlot = destinationMeal.scheduledSlot
             destinationMeal.scheduledDay = sourceSpace.day
             destinationMeal.scheduledSlot = sourceSpace.slot
-        case .empty(let space):
+        case .empty(let space): // Move meal
             selectedMeal.scheduledDay = space.day
             selectedMeal.scheduledSlot = space.slot
         }

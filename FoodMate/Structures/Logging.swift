@@ -9,6 +9,7 @@ import Foundation
 import os
 
 // Exposes `Logger` to the result of the module without having to `import os` in every file
+/// Provides access to `Logger` instances for different categories of logs.
 enum Logger {
     private static let subsystem = Bundle.main.bundleIdentifier!
     static let coreData = os.Logger(subsystem: subsystem, category: "coreData")

@@ -198,8 +198,8 @@
 			children = (
 				3EF089B02531B4A100B05208 /* MealPlanView.swift */,
 				3E442DBC253349DE00935714 /* MealPlanController.swift */,
-				3E442DB0253347E900935714 /* MealPlanModel.swift */,
 				3E442DB32533485500935714 /* CollectionViewManager.swift */,
+				3E442DB0253347E900935714 /* MealPlanModel.swift */,
 				3E442DB6253348CF00935714 /* MealSlotModel.swift */,
 				3E442DB92533491F00935714 /* HostingCollectionViewCell.swift */,
 				3E961A7D2528B0CF005E660F /* MealRow.swift */,

@@ -16,10 +16,15 @@ extension Meal {
         return NSFetchRequest<Meal>(entityName: "Meal")
     }
 
+    /// The name the user has given this meal.
     @NSManaged public var name: String
+    /// The day this meal has been scheduled for in the planner (components finer than
+    /// `.day` are not used).
     @NSManaged public var scheduledDay: Date
+    /// The ingredients required to make this meal.
     @NSManaged public var ingredients: Set<AbstractIngredient>
 
+    /// The slot this meal has been scheduled for in the planner.
     public var scheduledSlot: MealSlot {
         get {
             MealSlot(rawValue: properlyGetPrimitiveValue(forKey: "scheduledSlot") as! String)!

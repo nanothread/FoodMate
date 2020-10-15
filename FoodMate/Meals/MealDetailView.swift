@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Displays additional controls for the ingredients in a meal.
 struct MealDetailView: View {
     @Environment(\.managedObjectContext) private var context
     

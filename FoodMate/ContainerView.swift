@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// The root view for FoodMate.
 struct ContainerView: View {
     var body: some View {
         TabView {

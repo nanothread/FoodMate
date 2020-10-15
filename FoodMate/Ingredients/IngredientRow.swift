@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Displays an ingredient alongside a countdown until expiry.
 struct IngredientRow: View {
     var name: String
     var expiryDate: Date?
