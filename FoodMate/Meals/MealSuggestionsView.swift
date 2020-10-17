@@ -6,21 +6,32 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct MealSuggestionsView: View {
-    @State private var isShoppingRequired: Bool = true
+    @StateObject var provider: MealSuggestionProvider
+    
+    init(context: NSManagedObjectContext) {
+        _provider = StateObject(wrappedValue: MealSuggestionProvider(context: context))
+    }
     
     var body: some View {
         Form {
             Section {
-                Toggle("Shopping Required", isOn: $isShoppingRequired)
+                Toggle("Avoid Going Shopping", isOn: $provider.avoidShopping)
             }
             
-            Section {
-                HStack {
-                    Spacer()
-                    Text("No Results")
-                    Spacer()
+            Section(header: Text("Suggestions")) {
+                if provider.currentSuggestions.isEmpty {
+                    HStack {
+                        Spacer()
+                        Text("No Results")
+                        Spacer()
+                    }
+                } else {
+                    ForEach(provider.currentSuggestions) { meal in
+                        Text(meal.name)
+                    }
                 }
             }
         }
@@ -29,8 +40,10 @@ struct MealSuggestionsView: View {
     }
 }
 
-struct MealSuggestionsView_Previews: PreviewProvider {
-    static var previews: some View {
-        MealSuggestionsView()
+struct MealSuggestionsWrapperView: View {
+    @Environment(\.managedObjectContext) private var context
+    
+    var body: some View {
+        MealSuggestionsView(context: context)
     }
 }

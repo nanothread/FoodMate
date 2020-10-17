@@ -16,6 +16,10 @@ extension Date {
         Calendar.current.dateComponents([.day], from: Date(), to: self).day!
     }
     
+    var startOfDay: Date {
+        Calendar.current.startOfDay(for: self)
+    }
+    
     func isInSameDay(as other: Date) -> Bool {
         Calendar.current.compare(self, to: other, toGranularity: .day) == .orderedSame
     }
