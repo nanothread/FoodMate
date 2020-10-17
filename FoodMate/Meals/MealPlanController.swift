@@ -50,6 +50,7 @@ struct MealPlanController: UIViewControllerRepresentable {
         let navigationController = UINavigationController(rootViewController: viewManager.collectionViewController)
         viewManager.collectionViewController.title = "Meal Plan"
         navigationController.navigationBar.prefersLargeTitles = true
+        navigationController.navigationItem.largeTitleDisplayMode = .always
         
         viewManager.selectMeal = { meal in
             let controller = UIHostingController(rootView: MealDetailView(meal: meal))
