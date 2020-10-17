@@ -135,7 +135,7 @@
 				3E5211892528ACAE00FD62BF /* Meals */,
 				3E961A722528ADFC005E660F /* ShoppingList */,
 				3E52117E25289CEA00FD62BF /* Ingredients */,
-				3E961A932528C07E005E660F /* Models */,
+				3E961A932528C07E005E660F /* Providers */,
 				3E52117725289BB700FD62BF /* Structures */,
 				3E52117525289B1900FD62BF /* Core Data */,
 				3E961A772528AF74005E660F /* Extensions */,
@@ -233,13 +233,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		3E961A932528C07E005E660F /* Models */ = {
+		3E961A932528C07E005E660F /* Providers */ = {
 			isa = PBXGroup;
 			children = (
 				3E961A942528C08A005E660F /* SearchProvider.swift */,
 				3EAD3CBF252D18B5005A1F3A /* NotificationManager.swift */,
+				3E023F21253B1BF600EB4B9D /* MealSuggestionProvider.swift */,
 			);
-			path = Models;
+			path = Providers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
