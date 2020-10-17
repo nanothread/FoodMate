@@ -36,8 +36,8 @@ Having sorted my purchased ingredients, I can now view them all in the 'kitchen'
 :white_check_mark: Control shopping list and kitchen stores from meal planner  
 :white_check_mark: Drag-and-drop meal reordering on iPhone  
 :white_check_mark: Shift meals forwards and backwards by a day  
+:white_check_mark: Suggest meals based on ingredients in the kitchen and time since last eaten  
 :arrow_right: Defrost notifications  
-[ ] Suggest meals based on ingredients in the kitchen and time since last eaten  
 [ ] Warn if a ingredient required for a planned meal will be expired at time of creation
 
 ### v0.2

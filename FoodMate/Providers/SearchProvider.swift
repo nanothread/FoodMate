@@ -54,16 +54,13 @@ class SearchProvider: ObservableObject {
         let limit = 3
         
         do {
-            let allMeals = try context.fetch(request)
-            var usedNames = Set<String>()
-            var result = [Meal]()
+            let validMeals = try context.fetch(request)
             
-            for meal in allMeals where !usedNames.contains(meal.name) && result.count < limit {
-                result.append(meal)
-                usedNames.insert(meal.name)
-            }
-            
-            return result
+            return Array(
+                validMeals
+                    .removingDuplicates(of: \.name)
+                    .prefix(limit)
+            )
             
         } catch {
             Logger.coreData.error("SearchProvider failed to fetch meals for term \(searchTerm): \(error.localizedDescription)")

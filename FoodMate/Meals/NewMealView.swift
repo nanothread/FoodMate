@@ -100,6 +100,11 @@ struct NewMealView: View {
                             Label(meal.name, systemImage: "magnifyingglass")
                         }
                     }
+                    
+                    NavigationLink(destination: MealSuggestionsView(context: context, addMeal: saveDuplicateOf)) {
+                        Text("Suggestions")
+                    }
+                    .foregroundColor(.accentColor)
                 }
                 
                 Section(header: Text("Ingredients")) {

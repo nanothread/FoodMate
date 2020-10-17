@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E023F22253B1BF600EB4B9D /* MealSuggestionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E023F21253B1BF600EB4B9D /* MealSuggestionProvider.swift */; };
+		3E023F27253B3D1500EB4B9D /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E023F26253B3D1500EB4B9D /* Array+Extensions.swift */; };
 		3E442DB1253347E900935714 /* MealPlanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB0253347E900935714 /* MealPlanModel.swift */; };
 		3E442DB42533485500935714 /* CollectionViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB32533485500935714 /* CollectionViewManager.swift */; };
 		3E442DB7253348CF00935714 /* MealSlotModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB6253348CF00935714 /* MealSlotModel.swift */; };
@@ -45,6 +47,7 @@
 		3E961AA225291176005E660F /* ShoppingItemStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA125291176005E660F /* ShoppingItemStatus.swift */; };
 		3E961AA525291416005E660F /* ActiveShoppingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA425291416005E660F /* ActiveShoppingItemView.swift */; };
 		3E961AA82529E019005E660F /* CompletedShoppingItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E961AA72529E018005E660F /* CompletedShoppingItemView.swift */; };
+		3EA92AAA253AFE5E0053DDC8 /* MealSuggestionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EA92AA9253AFE5E0053DDC8 /* MealSuggestionsView.swift */; };
 		3EAD3CC0252D18B5005A1F3A /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD3CBF252D18B5005A1F3A /* NotificationManager.swift */; };
 		3EAD3CC3252E58FA005A1F3A /* CancellableStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD3CC2252E58FA005A1F3A /* CancellableStore.swift */; };
 		3EF089B12531B4A100B05208 /* MealPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF089B02531B4A100B05208 /* MealPlanView.swift */; };
@@ -52,6 +55,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E023F21253B1BF600EB4B9D /* MealSuggestionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSuggestionProvider.swift; sourceTree = "<group>"; };
+		3E023F26253B3D1500EB4B9D /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		3E442DB0253347E900935714 /* MealPlanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanModel.swift; sourceTree = "<group>"; };
 		3E442DB32533485500935714 /* CollectionViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManager.swift; sourceTree = "<group>"; };
 		3E442DB6253348CF00935714 /* MealSlotModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSlotModel.swift; sourceTree = "<group>"; };
@@ -92,6 +97,7 @@
 		3E961AA125291176005E660F /* ShoppingItemStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItemStatus.swift; sourceTree = "<group>"; };
 		3E961AA425291416005E660F /* ActiveShoppingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveShoppingItemView.swift; sourceTree = "<group>"; };
 		3E961AA72529E018005E660F /* CompletedShoppingItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedShoppingItemView.swift; sourceTree = "<group>"; };
+		3EA92AA9253AFE5E0053DDC8 /* MealSuggestionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSuggestionsView.swift; sourceTree = "<group>"; };
 		3EAD3CBF252D18B5005A1F3A /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		3EAD3CC2252E58FA005A1F3A /* CancellableStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellableStore.swift; sourceTree = "<group>"; };
 		3EF089B02531B4A100B05208 /* MealPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanView.swift; sourceTree = "<group>"; };
@@ -206,6 +212,7 @@
 				3E961A802528B1B0005E660F /* EmptyMealSlotView.swift */,
 				3E961A8D2528BC7F005E660F /* NewMealView.swift */,
 				3EFF38C8252BA963006C64F7 /* MealDetailView.swift */,
+				3EA92AA9253AFE5E0053DDC8 /* MealSuggestionsView.swift */,
 			);
 			path = Meals;
 			sourceTree = "<group>";
@@ -226,6 +233,7 @@
 				3E961A782528AF81005E660F /* Date+Extensions.swift */,
 				3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */,
 				3E961A982528EF4F005E660F /* String+Extensions.swift */,
+				3E023F26253B3D1500EB4B9D /* Array+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -319,10 +327,12 @@
 				3E961A9E2529113B005E660F /* ShoppingItem+CoreDataClass.swift in Sources */,
 				3E5211612528952700FD62BF /* IngredientRow.swift in Sources */,
 				3E961A952528C08A005E660F /* SearchProvider.swift in Sources */,
+				3EA92AAA253AFE5E0053DDC8 /* MealSuggestionsView.swift in Sources */,
 				3E521158252893E900FD62BF /* FoodMate.xcdatamodeld in Sources */,
 				3E52116D25289AC700FD62BF /* AbstractIngredient+CoreDataClass.swift in Sources */,
 				3E442DB42533485500935714 /* CollectionViewManager.swift in Sources */,
 				3E961A992528EF4F005E660F /* String+Extensions.swift in Sources */,
+				3E023F22253B1BF600EB4B9D /* MealSuggestionProvider.swift in Sources */,
 				3E961A812528B1B0005E660F /* EmptyMealSlotView.swift in Sources */,
 				3E52117925289BCC00FD62BF /* Location.swift in Sources */,
 				3EF089B12531B4A100B05208 /* MealPlanView.swift in Sources */,
@@ -352,6 +362,7 @@
 				3EFF38C9252BA963006C64F7 /* MealDetailView.swift in Sources */,
 				3E961A8B2528BA15005E660F /* NSManagedObject+Extensions.swift in Sources */,
 				3E5211872528A8B800FD62BF /* Logging.swift in Sources */,
+				3E023F27253B3D1500EB4B9D /* Array+Extensions.swift in Sources */,
 				3E961AA525291416005E660F /* ActiveShoppingItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -481,6 +492,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"FoodMate/Preview Content\"";
 				DEVELOPMENT_TEAM = EV37RCF267;
 				ENABLE_PREVIEWS = YES;
@@ -504,6 +516,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"FoodMate/Preview Content\"";
 				DEVELOPMENT_TEAM = EV37RCF267;
 				ENABLE_PREVIEWS = YES;
