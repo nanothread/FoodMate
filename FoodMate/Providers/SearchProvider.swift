@@ -38,21 +38,33 @@ class SearchProvider: ObservableObject {
         return []
     }
     
-    // TODO: confirm that these meals are actually distinct
     /// Returns the first 3 distinct meals whose name matches `searchTerm` (case-insensitive). `searchTerm` is processed before the query to achieve consistent results.
     func getMealsWithDistinctNames(matching searchTerm: String) -> [Meal] {
         let trimmedTerm = searchTerm.trimmingCharacters(in: .whitespaces)
         guard !trimmedTerm.isEmpty else { return [] }
+            
+        
+        // TODO: Instead of fetching all meals and sorting, fetch just the names
+        // distinctly and then fetch the proper object on save.
         
         let request: NSFetchRequest<Meal> = Meal.fetchRequest()
-        request.fetchLimit = 3
         request.predicate = NSPredicate(format: "name CONTAINS[cd] %@", argumentArray: [trimmedTerm])
-        request.propertiesToFetch = ["name"]
-        request.returnsDistinctResults = true
         request.sortDescriptors = [NSSortDescriptor(key: "scheduledDay", ascending: false)]
         
+        let limit = 3
+        
         do {
-            return try context.fetch(request)
+            let allMeals = try context.fetch(request)
+            var usedNames = Set<String>()
+            var result = [Meal]()
+            
+            for meal in allMeals where !usedNames.contains(meal.name) && result.count < limit {
+                result.append(meal)
+                usedNames.insert(meal.name)
+            }
+            
+            return result
+            
         } catch {
             Logger.coreData.error("SearchProvider failed to fetch meals for term \(searchTerm): \(error.localizedDescription)")
         }
