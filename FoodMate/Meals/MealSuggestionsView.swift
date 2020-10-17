@@ -11,8 +11,11 @@ import CoreData
 struct MealSuggestionsView: View {
     @StateObject var provider: MealSuggestionProvider
     
-    init(context: NSManagedObjectContext) {
+    var addMeal: (Meal) -> Void
+    
+    init(context: NSManagedObjectContext, addMeal: @escaping (Meal) -> Void) {
         _provider = StateObject(wrappedValue: MealSuggestionProvider(context: context))
+        self.addMeal = addMeal
     }
     
     var body: some View {
@@ -30,20 +33,16 @@ struct MealSuggestionsView: View {
                     }
                 } else {
                     ForEach(provider.currentSuggestions) { meal in
-                        Text(meal.name)
+                        Button {
+                            addMeal(meal)
+                        } label: {
+                            Label(meal.name, systemImage: "plus")
+                        }
                     }
                 }
             }
         }
         .listStyle(InsetGroupedListStyle())
         .navigationTitle("Meal Suggestions")
-    }
-}
-
-struct MealSuggestionsWrapperView: View {
-    @Environment(\.managedObjectContext) private var context
-    
-    var body: some View {
-        MealSuggestionsView(context: context)
     }
 }

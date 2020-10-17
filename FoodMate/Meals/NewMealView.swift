@@ -101,7 +101,7 @@ struct NewMealView: View {
                         }
                     }
                     
-                    NavigationLink(destination: MealSuggestionsWrapperView()) {
+                    NavigationLink(destination: MealSuggestionsView(context: context, addMeal: saveDuplicateOf)) {
                         Text("Suggestions")
                     }
                     .foregroundColor(.accentColor)
