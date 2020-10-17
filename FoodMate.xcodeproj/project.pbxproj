@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3E023F22253B1BF600EB4B9D /* MealSuggestionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E023F21253B1BF600EB4B9D /* MealSuggestionProvider.swift */; };
+		3E023F27253B3D1500EB4B9D /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E023F26253B3D1500EB4B9D /* Array+Extensions.swift */; };
 		3E442DB1253347E900935714 /* MealPlanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB0253347E900935714 /* MealPlanModel.swift */; };
 		3E442DB42533485500935714 /* CollectionViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB32533485500935714 /* CollectionViewManager.swift */; };
 		3E442DB7253348CF00935714 /* MealSlotModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E442DB6253348CF00935714 /* MealSlotModel.swift */; };
@@ -55,6 +56,7 @@
 
 /* Begin PBXFileReference section */
 		3E023F21253B1BF600EB4B9D /* MealSuggestionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSuggestionProvider.swift; sourceTree = "<group>"; };
+		3E023F26253B3D1500EB4B9D /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		3E442DB0253347E900935714 /* MealPlanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPlanModel.swift; sourceTree = "<group>"; };
 		3E442DB32533485500935714 /* CollectionViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewManager.swift; sourceTree = "<group>"; };
 		3E442DB6253348CF00935714 /* MealSlotModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealSlotModel.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				3E961A782528AF81005E660F /* Date+Extensions.swift */,
 				3E961A8A2528BA15005E660F /* NSManagedObject+Extensions.swift */,
 				3E961A982528EF4F005E660F /* String+Extensions.swift */,
+				3E023F26253B3D1500EB4B9D /* Array+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -359,6 +362,7 @@
 				3EFF38C9252BA963006C64F7 /* MealDetailView.swift in Sources */,
 				3E961A8B2528BA15005E660F /* NSManagedObject+Extensions.swift in Sources */,
 				3E5211872528A8B800FD62BF /* Logging.swift in Sources */,
+				3E023F27253B3D1500EB4B9D /* Array+Extensions.swift in Sources */,
 				3E961AA525291416005E660F /* ActiveShoppingItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -47,20 +47,6 @@ class MealSuggestionProvider: ObservableObject {
             eligibleMeals = eligibleMeals.filter { !$0.ingredients.contains(where: { $0.children.isEmpty }) }
         }
         
-        currentSuggestions = eligibleMeals.removeDuplicates(of: \.name)
-    }
-}
-
-extension Array {
-    func removeDuplicates<Target: Hashable>(of keyPath: KeyPath<Element, Target>) -> Self {
-        var visitedItems = Set<Target>()
-        var result = [Element]()
-        
-        for item in self where !visitedItems.contains(item[keyPath: keyPath]) {
-            result.append(item)
-            visitedItems.insert(item[keyPath: keyPath])
-        }
-        
-        return result
+        currentSuggestions = eligibleMeals.removingDuplicates(of: \.name)
     }
 }
