@@ -8,13 +8,14 @@
 import SwiftUI
 import CoreData
 
+/// Displays suggested meals and conrtols to tweak the suggestions.
 struct MealSuggestionsView: View {
     @StateObject var provider: MealSuggestionProvider
     
     var addMeal: (Meal) -> Void
     
     init(context: NSManagedObjectContext, addMeal: @escaping (Meal) -> Void) {
-        _provider = StateObject(wrappedValue: MealSuggestionProvider(context: context))
+        self._provider = StateObject(wrappedValue: MealSuggestionProvider(context: context))
         self.addMeal = addMeal
     }
     

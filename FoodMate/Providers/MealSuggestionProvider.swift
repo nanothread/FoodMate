@@ -9,12 +9,17 @@ import Foundation
 import CoreData
 import Combine
 
+/// Generates meal suggestions and manages various suggestion-related settings.
 class MealSuggestionProvider: ObservableObject {
+    /// If `true`, `currentSuggestions` will only contain meals that can be made with
+    /// the ingredients that are already on-hand.
     @Published var avoidShopping = false {
         didSet {
             updateMealSuggestions()
         }
     }
+    
+    /// The latest suggestions that have been generated.
     @Published var currentSuggestions = [Meal]()
     
     var context: NSManagedObjectContext
@@ -35,7 +40,7 @@ class MealSuggestionProvider: ObservableObject {
         updateMealSuggestions()
     }
     
-    func updateMealSuggestions() {
+    private func updateMealSuggestions() {
         // Suggest meals by least recently made
         // Disallow meals that are already scheduled for the future
         
